@@ -1,9 +1,11 @@
+@import "./../../utils/variables";
+
 .GridRow {
 	border: none;
 	padding: 0;
 	margin: 0;
-	height: 1em;
-	margin-bottom: -1px;
+	height: $cellSize;
+	margin-bottom: -$borderSize;
 }
 
 .Grid {

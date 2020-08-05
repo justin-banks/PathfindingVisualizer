@@ -1,9 +1,11 @@
+@import "./../../utils/variables";
+
 .Cell {
-	margin-left: -1px;
-	margin-bottom: -1px;
+	margin-left: -$borderSize;
+	margin-bottom: -$borderSize;
 	display: inline-block;
-	width: 1em;
-	height: 1em;
+	width: $cellSize;
+	height: $cellSize;
 }
 
 .CellButton {
