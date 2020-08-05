@@ -1,4 +1,6 @@
 .Cell {
+  margin-left: -1px;
+  margin-bottom: -1px;
   display: inline-block;
   width: 1em;
   height: 1em;
