@@ -1,4 +1,10 @@
-$mainColor: Red;
+$mainColor: Green;
 $secondaryColor: Blue;
 $cellSize: 1rem;
 $borderSize: 1px;
+
+:export {
+	mainColor: $mainColor;
+	secondaryColor: $secondaryColor;
+	cellSize: $cellSize;
+}

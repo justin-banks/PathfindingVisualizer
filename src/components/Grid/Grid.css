@@ -1,3 +1,9 @@
+:export {
+  mainColor: Red;
+  secondary: Blue;
+  cellSize: 1rem;
+}
+
 .GridRow {
   border: none;
   padding: 0;
