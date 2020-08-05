@@ -2,9 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import Cell from "./components/Cell/Cell";
 
 ReactDOM.render(
-	<React.StrictMode></React.StrictMode>,
+	<React.StrictMode>
+		<Cell />
+	</React.StrictMode>,
 	document.getElementById("root")
 );
 
