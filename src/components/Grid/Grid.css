@@ -1,0 +1,12 @@
+.GridRow {
+  border: none;
+  padding: 0;
+  margin: 0;
+  height: 1em;
+}
+
+.Grid {
+  text-align: center;
+  display: block;
+}
+/*# sourceMappingURL=Grid.css.map */
