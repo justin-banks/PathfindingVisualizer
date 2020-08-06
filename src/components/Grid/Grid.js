@@ -1,29 +1,57 @@
-import React from "react";
+import React, { Component } from "react";
 import "./Grid.css";
 import Cell from "./../Cell/Cell";
 
-function Grid({ row = 10, col = 10 }) {
-	if (row <= 1) {
-		throw new Error("row size must be greater than 1");
-	} else if (col <= 1) {
-		throw new Error("col size must be greater than 1");
+class Grid extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			grid: [],
+			row: this.props.row ? this.props.row : 10,
+			col: this.props.col ? this.props.col : 10,
+		};
 	}
+	componentDidMount() {
+		const grid = initializeGrid(this.state.row, this.state.col);
+		this.setState({ grid });
+	}
+	render() {
+		const { grid } = this.state;
 
-	var rowArr = new Array(col).fill(1);
-	var cellsRow = rowArr.map((step, move) => {
-		return <Cell key={move} />;
-	});
-
-	var gridArr = new Array(row).fill(1);
-	var finalGrid = gridArr.map((step, move) => {
 		return (
-			<div className="GridRow" key={move}>
-				{cellsRow}
+			<div className="Grid">
+				{grid.map((row, rowIdx) => {
+					return (
+						<div key={rowIdx} className="GridRow">
+							{row.map((cell, cellIdx) => {
+								const { row, col } = cell;
+								return <Cell key={cellIdx} col={col} row={row} />;
+							})}
+						</div>
+					);
+				})}
 			</div>
 		);
-	});
-
-	return <div className="Grid">{finalGrid}</div>;
+	}
 }
+
+const initializeGrid = (row, col) => {
+	const grid = [];
+	for (let i = 0; i < row; i++) {
+		const gridRow = [];
+		for (let j = 0; j < col; j++) {
+			gridRow.push(createCellVal(i, j));
+		}
+		grid.push(gridRow);
+	}
+	return grid;
+};
+
+const createCellVal = (row, col) => {
+	return {
+		row,
+		col,
+	};
+};
 
 export default Grid;

@@ -6,7 +6,7 @@ import Grid from "./components/Grid/Grid";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Grid />
+		<Grid row={20} />
 	</React.StrictMode>,
 	document.getElementById("root")
 );
