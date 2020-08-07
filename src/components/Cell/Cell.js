@@ -13,12 +13,20 @@ class Cell extends Component {
 		const {
 			row,
 			col,
+			startPoint,
+			finishPoint,
 			onMouseDown,
 			onMouseEnter,
 			onMouseUp,
 			currentWall,
 		} = this.props;
-		const appendedClass = currentWall ? "CurrentWall" : "";
+		const appendedClass = startPoint
+			? "StartPoint"
+			: finishPoint
+			? "FinishPoint"
+			: currentWall
+			? "CurrentWall"
+			: "";
 		return (
 			<div className="Cell">
 				<input
@@ -27,9 +35,6 @@ class Cell extends Component {
 					onMouseDown={() => onMouseDown(row, col)}
 					onMouseEnter={() => onMouseEnter(row, col)}
 					onMouseUp={() => onMouseUp()}
-					style={{
-						background: currentWall ? styles.secondaryColor : styles.mainColor,
-					}}
 				/>
 			</div>
 		);

@@ -1,7 +1,9 @@
 $mainColor: Green;
 $secondaryColor: Blue;
-$cellSize: 0.1rem;
+$cellSize: 1rem;
 $borderSize: 1px;
+$startPoint: Red;
+$finishPoint: Yellow;
 
 :export {
 	mainColor: $mainColor;

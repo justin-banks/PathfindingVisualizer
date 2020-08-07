@@ -41,12 +41,14 @@ class Grid extends Component {
 					return (
 						<div key={rowIdx} className="GridRow">
 							{row.map((cell, cellIdx) => {
-								const { row, col, currentWall } = cell;
+								const { row, col, currentWall, startPoint, finishPoint } = cell;
 								return (
 									<Cell
 										key={cellIdx}
 										col={col}
 										row={row}
+										startPoint={startPoint}
+										finishPoint={finishPoint}
 										currentWall={currentWall}
 										onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 										onMouseUp={() => this.handleMouseUp()}
@@ -73,6 +75,9 @@ const initializeGrid = (row, col) => {
 		}
 		grid.push(gridRow);
 	}
+	grid[0][0].startPoint = true;
+	console.log(grid[0][0].startPoint);
+	grid[row - 1][col - 1].finishPoint = true;
 	return grid;
 };
 
@@ -81,6 +86,8 @@ const createCellVal = (row, col) => {
 		row,
 		col,
 		currentWall: false,
+		startPoint: false,
+		finishPoint: false,
 	};
 };
 
