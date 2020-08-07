@@ -6,6 +6,7 @@
 	display: inline-block;
 	width: $cellSize;
 	height: $cellSize;
+	background-color: $mainColor;
 }
 
 .CellButton {
@@ -18,4 +19,8 @@
 
 .CellButton:focus {
 	outline: none;
+}
+
+.CurrentWall {
+	background-color: $secondaryColor;
 }

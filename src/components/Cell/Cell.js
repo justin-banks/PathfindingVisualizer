@@ -9,22 +9,27 @@ class Cell extends Component {
 		};
 	}
 
-	handleClick() {
-		this.setState({
-			bgColor:
-				this.state.bgColor === styles.mainColor
-					? styles.secondaryColor
-					: styles.mainColor,
-		});
-	}
 	render() {
+		const {
+			row,
+			col,
+			onMouseDown,
+			onMouseEnter,
+			onMouseUp,
+			currentWall,
+		} = this.props;
+		const appendedClass = currentWall ? "CurrentWall" : "";
 		return (
 			<div className="Cell">
 				<input
 					type="button"
-					className="CellButton"
-					onClick={() => this.handleClick()}
-					style={{ background: this.state.bgColor }}
+					className={`CellButton ${appendedClass}`}
+					onMouseDown={() => onMouseDown(row, col)}
+					onMouseEnter={() => onMouseEnter(row, col)}
+					onMouseUp={() => onMouseUp()}
+					style={{
+						background: currentWall ? styles.secondaryColor : styles.mainColor,
+					}}
 				/>
 			</div>
 		);
