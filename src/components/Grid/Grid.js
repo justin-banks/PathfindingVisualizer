@@ -9,7 +9,11 @@ class Grid extends Component {
 			grid: [],
 			row: this.props.row ? (this.props.row >= 2 ? this.props.row : 10) : 10,
 			col: this.props.col ? (this.props.col >= 2 ? this.props.col : 10) : 10,
+			prevRow: 0,
+			prevCol: 0,
 			mouseIsPressed: false,
+			startMoving: false,
+			finishMoving: false,
 		};
 	}
 	componentDidMount() {
@@ -18,18 +22,57 @@ class Grid extends Component {
 	}
 
 	handleMouseDown(row, col) {
-		const updatedGrid = toggleWall(this.state.grid, row, col);
-		this.setState({ grid: updatedGrid, mouseIsPressed: true });
+		if (this.state.grid[row][col].startPoint) {
+			this.setState({
+				startMoving: true,
+				prevRow: row,
+				prevCol: col,
+			});
+		} else if (this.state.grid[row][col].finishPoint) {
+			this.setState({
+				finishMoving: true,
+				prevRow: row,
+				prevCol: col,
+			});
+		} else {
+			const updatedGrid = toggleWall(this.state.grid, row, col);
+			this.setState({ grid: updatedGrid });
+		}
+		this.setState({ mouseIsPressed: true });
 	}
 
 	handleMouseEnter(row, col) {
-		if (!this.state.mouseIsPressed) return;
-		const updatedGrid = toggleWall(this.state.grid, row, col);
-		this.setState({ grid: updatedGrid });
+		if (!this.state.mouseIsPressed && !this.state.startMoving) return;
+		if (this.state.startMoving) {
+			const updatedGrid = toggleStart(
+				this.state.grid,
+				this.state.prevRow,
+				this.state.prevCol,
+				row,
+				col
+			);
+			this.setState({ grid: updatedGrid, prevRow: row, prevCol: col });
+		} else if (this.state.finishMoving) {
+			const updatedGrid = toggleFinish(
+				this.state.grid,
+				this.state.prevRow,
+				this.state.prevCol,
+				row,
+				col
+			);
+			this.setState({ grid: updatedGrid, prevRow: row, prevCol: col });
+		} else {
+			const updatedGrid = toggleWall(this.state.grid, row, col);
+			this.setState({ grid: updatedGrid });
+		}
 	}
 
 	handleMouseUp() {
-		this.setState({ mouseIsPressed: false });
+		this.setState({
+			startMoving: false,
+			finishMoving: false,
+			mouseIsPressed: false,
+		});
 	}
 
 	render() {
@@ -76,7 +119,6 @@ const initializeGrid = (row, col) => {
 		grid.push(gridRow);
 	}
 	grid[0][0].startPoint = true;
-	console.log(grid[0][0].startPoint);
 	grid[row - 1][col - 1].finishPoint = true;
 	return grid;
 };
@@ -95,6 +137,28 @@ const toggleWall = (grid, row, col) => {
 	const updatedGrid = [...grid];
 	const cell = updatedGrid[row][col];
 	const newCell = { ...cell, currentWall: !cell.currentWall };
+	updatedGrid[row][col] = newCell;
+	return updatedGrid;
+};
+
+const toggleStart = (grid, prevRow, prevCol, row, col) => {
+	const updatedGrid = [...grid];
+	const prevCell = updatedGrid[prevRow][prevCol];
+	const cell = updatedGrid[row][col];
+	const newPrevCell = { ...prevCell, startPoint: false };
+	const newCell = { ...cell, startPoint: true };
+	updatedGrid[prevRow][prevCol] = newPrevCell;
+	updatedGrid[row][col] = newCell;
+	return updatedGrid;
+};
+
+const toggleFinish = (grid, prevRow, prevCol, row, col) => {
+	const updatedGrid = [...grid];
+	const prevCell = updatedGrid[prevRow][prevCol];
+	const cell = updatedGrid[row][col];
+	const newPrevCell = { ...prevCell, finishPoint: false };
+	const newCell = { ...cell, finishPoint: true };
+	updatedGrid[prevRow][prevCol] = newPrevCell;
 	updatedGrid[row][col] = newCell;
 	return updatedGrid;
 };
