@@ -1,7 +1,9 @@
 :export {
-  mainColor: Green;
-  secondaryColor: Blue;
+  mainColor: Tan;
+  wallColor: Grey;
   cellSize: 1rem;
+  defaultRows: 10;
+  defaultCols: 10;
 }
 
 .Cell {
@@ -18,7 +20,7 @@
   border: 1px solid black;
   padding: none;
   text-align: center;
-  background-color: Green;
+  background-color: Tan;
 }
 
 .CellButton:focus {
@@ -26,14 +28,18 @@
 }
 
 .CurrentWall {
-  background-color: Blue;
+  background-color: Grey;
 }
 
 .StartPoint {
-  background-color: Red;
+  background-color: lightGreen;
 }
 
 .FinishPoint {
-  background-color: Yellow;
+  background-color: #c04343;
+}
+
+.cell-visited {
+  background-color: red;
 }
 /*# sourceMappingURL=Cell.css.map */

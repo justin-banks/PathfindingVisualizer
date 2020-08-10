@@ -1,14 +1,24 @@
 import React, { Component } from "react";
 import "./Grid.css";
 import Cell from "./../Cell/Cell";
+import { dijkstra } from "./../../algorithms/dijkstra";
+import styles from "./../../utils/_variables.scss";
 
 class Grid extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			grid: [],
-			row: this.props.row ? (this.props.row >= 2 ? this.props.row : 10) : 10,
-			col: this.props.col ? (this.props.col >= 2 ? this.props.col : 10) : 10,
+			row: this.props.row
+				? this.props.row >= 2
+					? this.props.row
+					: styles.defaultRows
+				: styles.defaultRows,
+			col: this.props.col
+				? this.props.col >= 2
+					? this.props.col
+					: styles.defaultCols
+				: styles.defaultCols,
 			prevRow: 0,
 			prevCol: 0,
 			mouseIsPressed: false,
@@ -75,11 +85,33 @@ class Grid extends Component {
 		});
 	}
 
+	visualizeAlgorithm(visitedCells) {
+		console.log("visualizing algorithm: " + visitedCells.length);
+		for (let i = 0; i < visitedCells.length; i++) {
+			setTimeout(() => {
+				const cell = visitedCells[i];
+				document.getElementById(`cell-${cell.row}-${cell.col}`).className =
+					"CellButton cell-visited";
+			}, 10 * i);
+		}
+	}
+
+	computePath() {
+		const { grid } = this.state;
+		const visitedCells = dijkstra(grid);
+		this.visualizeAlgorithm(visitedCells);
+	}
+
 	render() {
 		const { grid } = this.state;
 
 		return (
 			<div className="Grid">
+				<input
+					type="button"
+					value="press to visualize"
+					onClick={() => this.computePath()}
+				/>
 				{grid.map((row, rowIdx) => {
 					return (
 						<div key={rowIdx} className="GridRow">
@@ -130,6 +162,9 @@ const createCellVal = (row, col) => {
 		currentWall: false,
 		startPoint: false,
 		finishPoint: false,
+		distance: Infinity,
+		parent: null,
+		beenVisited: false,
 	};
 };
 

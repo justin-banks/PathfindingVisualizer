@@ -30,6 +30,7 @@ class Cell extends Component {
 		return (
 			<div className="Cell">
 				<input
+					id={`cell-${row}-${col}`}
 					type="button"
 					className={`CellButton ${appendedClass}`}
 					onMouseDown={() => onMouseDown(row, col)}

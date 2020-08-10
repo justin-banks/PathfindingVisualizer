@@ -1,12 +1,16 @@
-$mainColor: Green;
-$secondaryColor: Blue;
+$mainColor: Tan;
+$wallColor: Grey;
 $cellSize: 1rem;
 $borderSize: 1px;
-$startPoint: Red;
-$finishPoint: Yellow;
+$startPoint: lightGreen;
+$finishPoint: rgb(192, 67, 67);
+$defaultRows: 10;
+$defaultCols: 10;
 
 :export {
 	mainColor: $mainColor;
-	secondaryColor: $secondaryColor;
+	wallColor: $wallColor;
 	cellSize: $cellSize;
+	defaultRows: $defaultRows;
+	defaultCols: $defaultCols;
 }

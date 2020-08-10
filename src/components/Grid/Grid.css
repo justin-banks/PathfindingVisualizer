@@ -1,7 +1,9 @@
 :export {
-  mainColor: Green;
-  secondaryColor: Blue;
+  mainColor: Tan;
+  wallColor: Grey;
   cellSize: 1rem;
+  defaultRows: 10;
+  defaultCols: 10;
 }
 
 .GridRow {

@@ -22,7 +22,7 @@
 }
 
 .CurrentWall {
-	background-color: $secondaryColor;
+	background-color: $wallColor;
 }
 
 .StartPoint {
@@ -31,4 +31,8 @@
 
 .FinishPoint {
 	background-color: $finishPoint;
+}
+
+.cell-visited {
+	background-color: red;
 }
