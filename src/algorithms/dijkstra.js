@@ -1,8 +1,8 @@
 export function dijkstra(grid) {
-	const startNode = findStart(grid);
-	const finishNode = findFinish(grid);
+	const startCell = findStart(grid);
+	const finishCell = findFinish(grid);
 	const cellsInOrder = [];
-	startNode.distance = 0;
+	startCell.distance = 0;
 	const remainingCells = getAllCells(grid);
 	while (!!remainingCells.length) {
 		sortCells(remainingCells);
@@ -17,11 +17,22 @@ export function dijkstra(grid) {
 
 		lowestDistanceCell.beenVisited = true;
 		cellsInOrder.push(lowestDistanceCell);
-		if (lowestDistanceCell === finishNode) {
+		if (lowestDistanceCell === finishCell) {
 			return cellsInOrder;
 		}
 		updateNeighbors(lowestDistanceCell, grid);
 	}
+}
+
+export function getShortestPath(grid) {
+	const finishCell = findFinish(grid);
+	const shortestPathCells = [];
+	let currCell = finishCell;
+	while (currCell.parent !== null) {
+		shortestPathCells.unshift(currCell);
+		currCell = currCell.parent;
+	}
+	return shortestPathCells;
 }
 
 function findStart(grid) {

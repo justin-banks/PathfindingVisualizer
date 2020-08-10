@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Grid.css";
 import Cell from "./../Cell/Cell";
-import { dijkstra } from "./../../algorithms/dijkstra";
+import { dijkstra, getShortestPath } from "./../../algorithms/dijkstra";
 import styles from "./../../utils/_variables.scss";
 
 class Grid extends Component {
@@ -24,6 +24,7 @@ class Grid extends Component {
 			mouseIsPressed: false,
 			startMoving: false,
 			finishMoving: false,
+			resetOption: false,
 		};
 	}
 	componentDidMount() {
@@ -85,14 +86,43 @@ class Grid extends Component {
 		});
 	}
 
+	resetGrid() {
+		const { grid } = this.state;
+		for (const row of grid) {
+			for (const cell of row) {
+				cell.distance = Infinity;
+				cell.beenVisited = false;
+				cell.parent = null;
+			}
+		}
+		this.setState({ resetOption: false, grid: grid });
+	}
+
 	visualizeAlgorithm(visitedCells) {
-		console.log("visualizing algorithm: " + visitedCells.length);
-		for (let i = 0; i < visitedCells.length; i++) {
+		const shortestPath = getShortestPath(this.state.grid);
+		for (let i = 0; i <= visitedCells.length; i++) {
+			if (i === visitedCells.length) {
+				setTimeout(() => {
+					this.animateShortestPath(shortestPath);
+				}, 10 * i);
+				this.setState({ resetOption: true });
+				return;
+			}
 			setTimeout(() => {
 				const cell = visitedCells[i];
 				document.getElementById(`cell-${cell.row}-${cell.col}`).className =
 					"CellButton cell-visited";
 			}, 10 * i);
+		}
+	}
+
+	animateShortestPath(shortestPath) {
+		for (let i = 0; i < shortestPath.length; i++) {
+			setTimeout(() => {
+				const cell = shortestPath[i];
+				document.getElementById(`cell-${cell.row}-${cell.col}`).className =
+					"CellButton cell-shortestPath";
+			}, 50 * i);
 		}
 	}
 
@@ -103,7 +133,14 @@ class Grid extends Component {
 	}
 
 	render() {
-		const { grid } = this.state;
+		const { grid, resetOption } = this.state;
+		const resetButtonDisp = resetOption ? (
+			<input
+				type="button"
+				value="Reset Grid"
+				onClick={() => this.resetGrid()}
+			/>
+		) : null;
 
 		return (
 			<div className="Grid">
@@ -112,6 +149,7 @@ class Grid extends Component {
 					value="press to visualize"
 					onClick={() => this.computePath()}
 				/>
+				<div>{resetButtonDisp}</div>
 				{grid.map((row, rowIdx) => {
 					return (
 						<div key={rowIdx} className="GridRow">

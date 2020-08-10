@@ -42,4 +42,8 @@
 .cell-visited {
   background-color: red;
 }
+
+.cell-shortestPath {
+  background-color: green;
+}
 /*# sourceMappingURL=Cell.css.map */
