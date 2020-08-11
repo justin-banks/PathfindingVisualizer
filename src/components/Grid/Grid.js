@@ -25,6 +25,7 @@ class Grid extends Component {
 			startMoving: false,
 			finishMoving: false,
 			resetOption: false,
+			visitedCells: [],
 		};
 	}
 	componentDidMount() {
@@ -88,6 +89,7 @@ class Grid extends Component {
 
 	resetGrid() {
 		const { grid } = this.state;
+		this.visualizeAlgorithm(this.state.visitedCells);
 		for (const row of grid) {
 			for (const cell of row) {
 				cell.distance = Infinity;
@@ -110,8 +112,11 @@ class Grid extends Component {
 			}
 			setTimeout(() => {
 				const cell = visitedCells[i];
-				document.getElementById(`cell-${cell.row}-${cell.col}`).className =
-					"CellButton cell-visited";
+				//document.getElementById(`cell-${cell.row}-${cell.col}`).className =
+				//"CellButton cell-visited";
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.toggle("cell-visited");
 			}, 10 * i);
 		}
 	}
@@ -120,8 +125,9 @@ class Grid extends Component {
 		for (let i = 0; i < shortestPath.length; i++) {
 			setTimeout(() => {
 				const cell = shortestPath[i];
-				document.getElementById(`cell-${cell.row}-${cell.col}`).className =
-					"CellButton cell-shortestPath";
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.toggle("cell-shortestPath");
 			}, 50 * i);
 		}
 	}
@@ -129,6 +135,7 @@ class Grid extends Component {
 	computePath() {
 		const { grid } = this.state;
 		const visitedCells = dijkstra(grid);
+		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells);
 	}
 
