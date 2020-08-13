@@ -35,6 +35,7 @@ class Grid extends Component {
 	}
 
 	handleMouseDown(row, col) {
+		if (this.state.mouseIsPressed) return;
 		if (this.state.grid[row][col].startPoint) {
 			this.setState({
 				startMoving: true,
@@ -70,6 +71,13 @@ class Grid extends Component {
 
 	handleMouseEnter(row, col) {
 		if (!this.state.mouseIsPressed && !this.state.startMoving) return;
+
+		if (
+			this.state.grid[row][col].startPoint ||
+			this.state.grid[row][col].finishPoint
+		)
+			return;
+
 		if (this.state.startMoving) {
 			const updatedGrid = toggleStart(
 				this.state.grid,
@@ -132,8 +140,8 @@ class Grid extends Component {
 
 	visualizeAlgorithm(visitedCells) {
 		const shortestPath = getShortestPath(this.state.grid);
-		for (let i = 0; i <= visitedCells.length; i++) {
-			if (i === visitedCells.length) {
+		for (let i = 1; i < visitedCells.length; i++) {
+			if (i === visitedCells.length - 1) {
 				setTimeout(() => {
 					this.animateShortestPath(shortestPath);
 				}, 10 * i);
@@ -150,7 +158,7 @@ class Grid extends Component {
 	}
 
 	animateShortestPath(shortestPath) {
-		for (let i = 0; i < shortestPath.length; i++) {
+		for (let i = 0; i < shortestPath.length - 1; i++) {
 			setTimeout(() => {
 				const cell = shortestPath[i];
 				document
@@ -197,7 +205,6 @@ class Grid extends Component {
 										row={row}
 										startPoint={startPoint}
 										finishPoint={finishPoint}
-										currentWall={currentWall}
 										onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 										onMouseUp={() => this.handleMouseUp()}
 										onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
