@@ -1,34 +1,72 @@
 :export {
   mainColor: Tan;
   wallColor: Grey;
-  cellSize: 1rem;
+  cellSize: 27px;
   defaultRows: 10;
   defaultCols: 10;
 }
 
-.Cell {
-  margin-left: -1px;
-  margin-bottom: -1px;
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-}
-
 .CellButton {
-  width: inherit;
+  display: inline-block;
+  width: 17px;
   height: inherit;
-  border: 1px solid black;
+  outline: 5px solid black;
   padding: none;
   text-align: center;
   background-color: Tan;
-}
-
-.CellButton:focus {
-  outline: none;
+  margin-left: 5px;
 }
 
 .CurrentWall {
-  background-color: Grey;
+  -webkit-animation: 0.2s ease-in 1 wallAnimation;
+          animation: 0.2s ease-in 1 wallAnimation;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes wallAnimation {
+  0% {
+    -webkit-transform: translateY(-27px);
+            transform: translateY(-27px);
+    background-color: rgba(146, 146, 151, 0.75);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    background-color: Grey;
+  }
+}
+
+@keyframes wallAnimation {
+  0% {
+    -webkit-transform: translateY(-27px);
+            transform: translateY(-27px);
+    background-color: rgba(146, 146, 151, 0.75);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    background-color: Grey;
+  }
+}
+
+.sampleAnimation {
+  -webkit-animation-name: visitedAnimation;
+          animation-name: visitedAnimation;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-timing-function: ease-out;
+          animation-timing-function: ease-out;
+  -webkit-animation-delay: 0;
+          animation-delay: 0;
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
 }
 
 .StartPoint {
@@ -45,5 +83,49 @@
 
 .cell-shortestPath {
   background-color: green;
+}
+
+@-webkit-keyframes visitedAnimation {
+  0% {
+    -webkit-transform: scale(0.3);
+            transform: scale(0.3);
+    background-color: rgba(146, 146, 151, 0.75);
+    border-radius: 100%;
+  }
+  50% {
+    background-color: rgba(86, 87, 88, 0.75);
+  }
+  75% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    background-color: rgba(66, 68, 67, 0.75);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background-color: Grey;
+  }
+}
+
+@keyframes visitedAnimation {
+  0% {
+    -webkit-transform: scale(0.3);
+            transform: scale(0.3);
+    background-color: rgba(146, 146, 151, 0.75);
+    border-radius: 100%;
+  }
+  50% {
+    background-color: rgba(86, 87, 88, 0.75);
+  }
+  75% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    background-color: rgba(66, 68, 67, 0.75);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background-color: Grey;
+  }
 }
 /*# sourceMappingURL=Cell.css.map */

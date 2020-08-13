@@ -4,8 +4,8 @@
 	border: none;
 	padding: 0;
 	margin: 0;
-	height: $cellSize;
-	margin-bottom: -$borderSize;
+	height: $cellSize - $borderSize - $borderSize;
+	margin-bottom: $borderSize;
 }
 
 .Grid {

@@ -1,28 +1,41 @@
 @import "./../../utils/variables";
 
-.Cell {
-	margin-left: -$borderSize;
-	margin-bottom: -$borderSize;
-	display: inline-block;
-	width: $cellSize;
-	height: $cellSize;
-}
-
 .CellButton {
-	width: inherit;
+	display: inline-block;
+	width: $cellSize - $borderSize - $borderSize;
 	height: inherit;
-	border: $borderSize solid black;
+	outline: $borderSize solid black;
 	padding: none;
 	text-align: center;
 	background-color: $mainColor;
-}
-
-.CellButton:focus {
-	outline: none;
+	margin-left: $borderSize;
 }
 
 .CurrentWall {
-	background-color: $wallColor;
+	animation: 0.2s ease-in 1 wallAnimation;
+	animation-fill-mode: forwards;
+}
+
+@keyframes wallAnimation {
+	0% {
+		transform: translateY(-$cellSize);
+		background-color: rgba(146, 146, 151, 0.75);
+	}
+	100% {
+		transform: translateY(0);
+		background-color: $wallColor;
+	}
+}
+
+.sampleAnimation {
+	animation-name: visitedAnimation;
+	animation-duration: 2s;
+	animation-timing-function: ease-out;
+	animation-delay: 0;
+	animation-direction: alternate;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
 }
 
 .StartPoint {
@@ -39,4 +52,26 @@
 
 .cell-shortestPath {
 	background-color: green;
+}
+
+@keyframes visitedAnimation {
+	0% {
+		transform: scale(0.3);
+		background-color: rgba(146, 146, 151, 0.75);
+		border-radius: 100%;
+	}
+
+	50% {
+		background-color: rgba(86, 87, 88, 0.75);
+	}
+
+	75% {
+		transform: scale(1.2);
+		background-color: rgba(66, 68, 67, 0.75);
+	}
+
+	100% {
+		transform: scale(1);
+		background-color: $wallColor;
+	}
 }

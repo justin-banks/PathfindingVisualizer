@@ -26,6 +26,7 @@ class Grid extends Component {
 			finishMoving: false,
 			resetOption: false,
 			visitedCells: [],
+			becomingWall: true,
 		};
 	}
 	componentDidMount() {
@@ -47,8 +48,22 @@ class Grid extends Component {
 				prevCol: col,
 			});
 		} else {
-			const updatedGrid = toggleWall(this.state.grid, row, col);
-			this.setState({ grid: updatedGrid });
+			document
+				.getElementById(`cell-${row}-${col}`)
+				.classList.toggle("CurrentWall");
+			this.setState({
+				grid: setWall(
+					this.state.grid,
+					row,
+					col,
+					document
+						.getElementById(`cell-${row}-${col}`)
+						.classList.contains("CurrentWall")
+				),
+				becomingWall: document
+					.getElementById(`cell-${row}-${col}`)
+					.classList.contains("CurrentWall"),
+			});
 		}
 		this.setState({ mouseIsPressed: true });
 	}
@@ -74,8 +89,18 @@ class Grid extends Component {
 			);
 			this.setState({ grid: updatedGrid, prevRow: row, prevCol: col });
 		} else {
-			const updatedGrid = toggleWall(this.state.grid, row, col);
-			this.setState({ grid: updatedGrid });
+			if (this.state.becomingWall) {
+				document
+					.getElementById(`cell-${row}-${col}`)
+					.classList.add("CurrentWall");
+			} else {
+				document
+					.getElementById(`cell-${row}-${col}`)
+					.classList.remove("CurrentWall");
+			}
+			this.setState({
+				grid: setWall(this.state.grid, row, col, this.state.becomingWall),
+			});
 		}
 	}
 
@@ -89,12 +114,17 @@ class Grid extends Component {
 
 	resetGrid() {
 		const { grid } = this.state;
-		this.visualizeAlgorithm(this.state.visitedCells);
 		for (const row of grid) {
 			for (const cell of row) {
 				cell.distance = Infinity;
 				cell.beenVisited = false;
 				cell.parent = null;
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.remove("cell-visited");
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.remove("cell-shortestPath");
 			}
 		}
 		this.setState({ resetOption: false, grid: grid });
@@ -112,11 +142,9 @@ class Grid extends Component {
 			}
 			setTimeout(() => {
 				const cell = visitedCells[i];
-				//document.getElementById(`cell-${cell.row}-${cell.col}`).className =
-				//"CellButton cell-visited";
 				document
 					.getElementById(`cell-${cell.row}-${cell.col}`)
-					.classList.toggle("cell-visited");
+					.classList.add("cell-visited");
 			}, 10 * i);
 		}
 	}
@@ -127,7 +155,7 @@ class Grid extends Component {
 				const cell = shortestPath[i];
 				document
 					.getElementById(`cell-${cell.row}-${cell.col}`)
-					.classList.toggle("cell-shortestPath");
+					.classList.add("cell-shortestPath");
 			}, 50 * i);
 		}
 	}
@@ -213,10 +241,10 @@ const createCellVal = (row, col) => {
 	};
 };
 
-const toggleWall = (grid, row, col) => {
+const setWall = (grid, row, col, isWall) => {
 	const updatedGrid = [...grid];
 	const cell = updatedGrid[row][col];
-	const newCell = { ...cell, currentWall: !cell.currentWall };
+	const newCell = { ...cell, currentWall: isWall };
 	updatedGrid[row][col] = newCell;
 	return updatedGrid;
 };

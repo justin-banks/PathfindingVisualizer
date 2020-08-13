@@ -1,7 +1,7 @@
 :export {
   mainColor: Tan;
   wallColor: Grey;
-  cellSize: 1rem;
+  cellSize: 27px;
   defaultRows: 10;
   defaultCols: 10;
 }
@@ -10,8 +10,8 @@
   border: none;
   padding: 0;
   margin: 0;
-  height: 1rem;
-  margin-bottom: -1px;
+  height: 17px;
+  margin-bottom: 5px;
 }
 
 .Grid {

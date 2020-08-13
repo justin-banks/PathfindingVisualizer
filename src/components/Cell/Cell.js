@@ -28,16 +28,13 @@ class Cell extends Component {
 			? "CurrentWall"
 			: "";
 		return (
-			<div className="Cell">
-				<input
-					id={`cell-${row}-${col}`}
-					type="button"
-					className={`CellButton ${appendedClass}`}
-					onMouseDown={() => onMouseDown(row, col)}
-					onMouseEnter={() => onMouseEnter(row, col)}
-					onMouseUp={() => onMouseUp()}
-				/>
-			</div>
+			<div
+				id={`cell-${row}-${col}`}
+				className={`Cell CellButton ${appendedClass}`}
+				onMouseDown={() => onMouseDown(row, col)}
+				onMouseEnter={() => onMouseEnter(row, col)}
+				onMouseUp={() => onMouseUp()}
+			></div>
 		);
 	}
 }
