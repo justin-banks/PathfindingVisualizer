@@ -3,6 +3,7 @@ import "./Grid.css";
 import Cell from "./../Cell/Cell";
 import { dijkstra, getShortestPath } from "./../../algorithms/dijkstra";
 import styles from "./../../utils/_variables.scss";
+import { aStar } from "./../../algorithms/aStar";
 
 class Grid extends Component {
 	constructor(props) {
@@ -127,6 +128,7 @@ class Grid extends Component {
 				cell.distance = Infinity;
 				cell.beenVisited = false;
 				cell.parent = null;
+				cell.heuristicDistance = Infinity;
 				document
 					.getElementById(`cell-${cell.row}-${cell.col}`)
 					.classList.remove("cell-visited");
@@ -169,8 +171,11 @@ class Grid extends Component {
 	}
 
 	computePath() {
+		this.resetGrid();
 		const { grid } = this.state;
 		const visitedCells = dijkstra(grid);
+		const tempHeuristic = makeHeuristic();
+		//const visitedCells = aStar(grid, tempHeuristic);
 		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells);
 	}
@@ -245,6 +250,7 @@ const createCellVal = (row, col) => {
 		distance: Infinity,
 		parent: null,
 		beenVisited: false,
+		heuristicDistance: Infinity,
 	};
 };
 
@@ -276,6 +282,18 @@ const toggleFinish = (grid, prevRow, prevCol, row, col) => {
 	updatedGrid[prevRow][prevCol] = newPrevCell;
 	updatedGrid[row][col] = newCell;
 	return updatedGrid;
+};
+
+const makeHeuristic = () => {
+	return function (cellRow, cellCol, finishRow, finishCol) {
+		const deltaRow = Math.abs(cellRow - finishRow);
+		const deltaCol = Math.abs(cellCol - finishCol);
+		return (
+			((10 * Math.min(deltaRow, deltaCol) + 10 * Math.max(deltaRow, deltaCol)) *
+				1001) /
+			1000
+		);
+	};
 };
 
 export default Grid;
