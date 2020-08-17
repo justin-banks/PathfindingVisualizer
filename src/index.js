@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import Grid from "./components/Grid/Grid";
+import NavigationMenu from "./components/NavigationMenu/NavigationMenu";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Grid row={20} col={20} />
+		<NavigationMenu />
 	</React.StrictMode>,
 	document.getElementById("root")
 );
