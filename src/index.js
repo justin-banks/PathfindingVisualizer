@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import NavigationMenu from "./components/NavigationMenu/NavigationMenu";
+import NavigationMenu from "./components/NavMenuWrapper/NavMenuWrapper";
 
 ReactDOM.render(
 	<React.StrictMode>

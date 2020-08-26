@@ -8,44 +8,42 @@
 
 .CellButton {
   display: inline-block;
-  width: 17px;
+  width: 23px;
   height: inherit;
-  outline: 5px solid black;
+  outline: 2px solid black;
   padding: none;
   text-align: center;
   background-color: Tan;
-  margin-left: 5px;
+  margin-left: 2px;
 }
 
 .CurrentWall {
-  -webkit-animation: 0.2s ease-in 1 wallAnimation;
-          animation: 0.2s ease-in 1 wallAnimation;
+  -webkit-animation: 0.2s ease-in-out 1 wallAnimation;
+          animation: 0.2s ease-in-out 1 wallAnimation;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes wallAnimation {
-  0% {
-    -webkit-transform: translateY(-27px);
-            transform: translateY(-27px);
-    background-color: rgba(146, 146, 151, 0.75);
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
   }
   100% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
+    -webkit-transform: scale(1);
+            transform: scale(1);
     background-color: Grey;
   }
 }
 
 @keyframes wallAnimation {
-  0% {
-    -webkit-transform: translateY(-27px);
-            transform: translateY(-27px);
-    background-color: rgba(146, 146, 151, 0.75);
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
   }
   100% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
+    -webkit-transform: scale(1);
+            transform: scale(1);
     background-color: Grey;
   }
 }

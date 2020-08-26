@@ -12,17 +12,16 @@
 }
 
 .CurrentWall {
-	animation: 0.2s ease-in 1 wallAnimation;
+	animation: 0.2s ease-in-out 1 wallAnimation;
 	animation-fill-mode: forwards;
 }
 
 @keyframes wallAnimation {
-	0% {
-		transform: translateY(-$cellSize);
-		background-color: rgba(146, 146, 151, 0.75);
+	50% {
+		transform: scale(1.2);
 	}
 	100% {
-		transform: translateY(0);
+		transform: scale(1);
 		background-color: $wallColor;
 	}
 }

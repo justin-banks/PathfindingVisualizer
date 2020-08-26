@@ -3,25 +3,23 @@ import "./Grid.css";
 import Cell from "./../Cell/Cell";
 import { dijkstra, getShortestPath } from "./../../algorithms/dijkstra";
 import styles from "./../../utils/_variables.scss";
+import PropTypes from "prop-types";
 import { aStar } from "./../../algorithms/aStar";
+
+const maxRow = 60;
+const maxCol = 60;
+const minRow = 2;
+const minCol = 2;
 
 class Grid extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			grid: [],
-			row: this.props.row
-				? this.props.row >= 2
-					? this.props.row
-					: styles.defaultRows
-				: styles.defaultRows,
-			col: this.props.col
-				? this.props.col >= 2
-					? this.props.col
-					: styles.defaultCols
-				: styles.defaultCols,
 			prevRow: 0,
 			prevCol: 0,
+			row: 0,
+			col: 0,
 			mouseIsPressed: false,
 			startMoving: false,
 			finishMoving: false,
@@ -31,8 +29,15 @@ class Grid extends Component {
 		};
 	}
 	componentDidMount() {
-		const grid = initializeGrid(this.state.row, this.state.col);
-		this.setState({ grid });
+		const grid = initializeGrid(
+			Math.min(Math.max(this.props.row, minRow), maxRow),
+			Math.min(Math.max(this.props.col, minCol), maxCol)
+		);
+		this.setState({
+			grid,
+			row: Math.min(this.props.row, maxRow),
+			col: Math.min(this.props.col, maxCol),
+		});
 	}
 
 	handleMouseDown(row, col) {
@@ -114,6 +119,8 @@ class Grid extends Component {
 	}
 
 	handleMouseUp() {
+		console.log("mouse Up");
+		console.log("");
 		this.setState({
 			startMoving: false,
 			finishMoving: false,
@@ -173,9 +180,9 @@ class Grid extends Component {
 	computePath() {
 		this.resetGrid();
 		const { grid } = this.state;
-		const visitedCells = dijkstra(grid);
+		//const visitedCells = dijkstra(grid);
 		const tempHeuristic = makeHeuristic();
-		//const visitedCells = aStar(grid, tempHeuristic);
+		const visitedCells = aStar(grid, tempHeuristic);
 		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells);
 	}
@@ -225,6 +232,16 @@ class Grid extends Component {
 		);
 	}
 }
+
+Grid.defaultProps = {
+	row: 30,
+	col: 30,
+};
+
+Grid.propTypes = {
+	row: PropTypes.number,
+	col: PropTypes.number,
+};
 
 const initializeGrid = (row, col) => {
 	const grid = [];
