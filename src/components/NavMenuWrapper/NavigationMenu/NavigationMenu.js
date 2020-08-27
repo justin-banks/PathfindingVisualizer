@@ -21,7 +21,7 @@ function TabPanel(props) {
 		>
 			{value === index && (
 				<Box p={3}>
-					<Typography>{children}</Typography>
+					<Typography component={"span"}>{children}</Typography>
 				</Box>
 			)}
 		</div>
@@ -54,6 +54,7 @@ export default function SimpleTabs(props) {
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
+		props.selectedAlgorithm(newValue);
 		props.resetPassback(newValue);
 	};
 
@@ -86,9 +87,11 @@ export default function SimpleTabs(props) {
 SimpleTabs.propTypes = {
 	checkPassback: PropTypes.func,
 	resetPassback: PropTypes.func,
+	selectedAlgorithm: PropTypes.func,
 };
 
 SimpleTabs.defaultProps = {
 	checkPassback: null,
 	resetPassback: null,
+	selectedAlgorithm: null,
 };

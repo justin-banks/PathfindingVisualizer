@@ -18,44 +18,42 @@ export default function RadioButtonsGroup(props) {
 	};
 
 	return (
-		<div>
-			<FormControl component="fieldset" size="small">
-				<FormLabel component="legend">Heuristic Choice</FormLabel>
-				<RadioGroup
-					aria-label="gender"
-					name="gender1"
-					value={value}
-					onChange={handleChange}
-				>
-					<div className="row">
-						<div className="column">
-							<FormControlLabel
-								value={"1"}
-								control={<Radio size="small" />}
-								label="Euclidean"
-							/>
-							<FormControlLabel
-								value={"2"}
-								control={<Radio size="small" />}
-								label="Proportional"
-							/>
-						</div>
-						<div className="column">
-							<FormControlLabel
-								value={"3"}
-								control={<Radio size="small" />}
-								label="Other"
-							/>
-							<FormControlLabel
-								value={"4"}
-								control={<Radio size="small" disabled={props.disable} />}
-								label="(Disabled option)"
-							/>
-						</div>
+		<FormControl component="fieldset" size="small">
+			<FormLabel component="legend">Heuristic Choice</FormLabel>
+			<RadioGroup
+				aria-label="gender"
+				name="gender1"
+				value={value}
+				onChange={handleChange}
+			>
+				<div className="row">
+					<div className="column">
+						<FormControlLabel
+							value={"1"}
+							control={<Radio size="small" />}
+							label="Euclidean"
+						/>
+						<FormControlLabel
+							value={"2"}
+							control={<Radio size="small" />}
+							label="Proportional"
+						/>
 					</div>
-				</RadioGroup>
-			</FormControl>
-		</div>
+					<div className="column">
+						<FormControlLabel
+							value={"3"}
+							control={<Radio size="small" />}
+							label="Other"
+						/>
+						<FormControlLabel
+							value={"4"}
+							control={<Radio size="small" disabled={props.disable} />}
+							label="(Disabled option)"
+						/>
+					</div>
+				</div>
+			</RadioGroup>
+		</FormControl>
 	);
 }
 
