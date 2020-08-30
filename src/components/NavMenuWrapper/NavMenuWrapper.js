@@ -13,7 +13,6 @@ class NavMenuWrapper extends Component {
 	};
 
 	resetPassback = () => {
-		console.log("here now");
 		this.setState({ selection: "1" });
 	};
 

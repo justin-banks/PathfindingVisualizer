@@ -5,35 +5,92 @@ class Cell extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			bgColor: styles.mainColor,
+			currentWall: "",
+			startPoint: "",
+			finishPoint: "",
 		};
 	}
 
-	render() {
+	componentDidMount() {
+		if (this.props.startPoint) {
+			this.setState({ startPoint: "StartPoint" });
+		}
+		if (this.props.finishPoint) {
+			this.setState({ finishPoint: "FinishPoint" });
+		}
+	}
+
+	handleMouseEnter = (row, col) => {
 		const {
-			row,
-			col,
-			startPoint,
-			finishPoint,
-			onMouseDown,
-			onMouseEnter,
-			onMouseUp,
-			currentWall,
+			mouseIsPressed,
+			finishMoving,
+			startMoving,
+			becomingWall,
 		} = this.props;
-		const appendedClass = startPoint
-			? "StartPoint"
-			: finishPoint
-			? "FinishPoint"
-			: currentWall
-			? "CurrentWall"
-			: "";
+		console.log(startMoving);
+		if (!mouseIsPressed) return;
+
+		if (startMoving) {
+			this.setState({ startPoint: "StartPoint" });
+		} else if (finishMoving) {
+			this.setState({ finishPoint: "FinishPoint" });
+		} else {
+			becomingWall
+				? this.setState({ currentWall: "CurrentWall" })
+				: this.setState({ currentWall: "" });
+		}
+	};
+
+	handleMouseDown = (row, col) => {
+		const {
+			mouseIsPressed,
+			assertStartMoving,
+			assertFinishMoving,
+			assertBecomingWall,
+			assertMouseIsPressed,
+		} = this.props;
+		const { startPoint, finishPoint, currentWall } = this.state;
+
+		if (mouseIsPressed) return;
+
+		if (finishPoint !== "") assertFinishMoving();
+		else if (startPoint !== "") assertStartMoving();
+		else {
+			currentWall === ""
+				? this.setState({ currentWall: "CurrentWall" })
+				: this.setState({ currentWall: "" });
+			assertBecomingWall(currentWall === "");
+		}
+		assertMouseIsPressed();
+	};
+
+	handleMouseUp = () => {
+		const { onMouseUp } = this.props;
+		onMouseUp();
+	};
+
+	handleMouseLeave = (row, col) => {
+		const { mouseIsPressed, finishMoving, startMoving } = this.props;
+		if (!mouseIsPressed) return;
+
+		if (startMoving) {
+			this.setState({ startPoint: "" });
+		} else if (finishMoving) {
+			this.setState({ finishPoint: "" });
+		}
+	};
+
+	render() {
+		const { row, col, onMouseDown, onMouseEnter, onMouseUp } = this.props;
+		const { currentWall, startPoint, finishPoint } = this.state;
 		return (
 			<div
 				id={`cell-${row}-${col}`}
-				className={`Cell CellButton ${appendedClass}`}
-				onMouseDown={() => onMouseDown(row, col)}
-				onMouseEnter={() => onMouseEnter(row, col)}
-				onMouseUp={() => onMouseUp()}
+				className={`Cell CellButton ${currentWall} ${finishPoint} ${startPoint}`}
+				onMouseDown={() => this.handleMouseDown(row, col)}
+				onMouseEnter={() => this.handleMouseEnter(row, col)}
+				onMouseUp={() => this.handleMouseUp()}
+				onMouseLeave={() => this.handleMouseLeave(row, col)}
 			></div>
 		);
 	}

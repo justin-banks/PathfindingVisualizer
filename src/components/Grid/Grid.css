@@ -17,5 +17,6 @@
 .Grid {
   text-align: center;
   display: block;
+  white-space: nowrap;
 }
 /*# sourceMappingURL=Grid.css.map */
