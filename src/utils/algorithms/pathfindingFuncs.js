@@ -1,6 +1,6 @@
 import { noHeuristic, makeHeuristic } from "./heuristics";
 import { pathfindFunction, findFinish } from "./../helpers/gridFunctions";
-export function getPath(grid, algorithmOption, heuristicOption) {
+export function getPath(grid, algorithmOption, heuristicOption, allowDiagonal) {
 	switch (algorithmOption) {
 		case 0:
 			heuristicOption = 0;
@@ -17,7 +17,7 @@ export function getPath(grid, algorithmOption, heuristicOption) {
 		default:
 			heuristic = noHeuristic();
 	}
-	return pathfindFunction(grid, heuristic);
+	return pathfindFunction(grid, heuristic, allowDiagonal);
 }
 
 export function getShortestPath(grid) {

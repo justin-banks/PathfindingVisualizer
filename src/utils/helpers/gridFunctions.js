@@ -47,7 +47,7 @@ export function getAllCells(grid) {
 	return cells;
 }
 
-export function pathfindFunction(grid, heuristic) {
+export function pathfindFunction(grid, heuristic, allowDiagonals) {
 	const startCell = findStart(grid);
 	const finishCell = findFinish(grid);
 	const cellsInOrder = [];
@@ -70,12 +70,23 @@ export function pathfindFunction(grid, heuristic) {
 		if (lowestDistanceCell === finishCell) {
 			return cellsInOrder;
 		}
-		updateNeighbors(lowestDistanceCell, grid, heuristic, finishCell);
+		updateNeighbors(
+			lowestDistanceCell,
+			grid,
+			heuristic,
+			finishCell,
+			allowDiagonals
+		);
 	}
 }
 
-function updateNeighbors(cell, grid, heuristic, finishCell) {
+function updateNeighbors(cell, grid, heuristic, finishCell, allowDiagonals) {
+	console.log(allowDiagonals);
 	const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
+	var diagonalUnvisitedNeighbors = [];
+	if (allowDiagonals) {
+		diagonalUnvisitedNeighbors = diagonalCells(cell, grid, unvisitedNeighbors);
+	}
 	for (const neighbor of unvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + 10) {
 			neighbor.distance = cell.distance + 10;
@@ -85,6 +96,65 @@ function updateNeighbors(cell, grid, heuristic, finishCell) {
 			neighbor.parent = cell;
 		}
 	}
+	for (const neighbor of diagonalUnvisitedNeighbors) {
+		if (neighbor.distance > cell.distance + 14) {
+			neighbor.distance = cell.distance + 14;
+			neighbor.heuristicDistance =
+				neighbor.distance +
+				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+			neighbor.parent = cell;
+		}
+	}
+}
+
+function diagonalCells(cell, grid, unvisitedNeighbors) {
+	const { row, col } = cell;
+	console.log("row: " + row + " col:" + col);
+	const validNeighbors = [];
+
+	if (col > 0 && row > 0) {
+		if (
+			(unvisitedNeighbors.includes(grid[row - 1][col]) &&
+				!grid[row - 1][col].currentWall) ||
+			(unvisitedNeighbors.includes(grid[row][col - 1]) &&
+				!grid[row][col - 1].currentWall)
+		) {
+			validNeighbors.push(grid[row - 1][col - 1]);
+		}
+	}
+	if (col > 0 && row < grid[0].length - 1) {
+		if (
+			(unvisitedNeighbors.includes(grid[row + 1][col]) &&
+				!grid[row + 1][col].currentWall) ||
+			(unvisitedNeighbors.includes(grid[row][col - 1]) &&
+				!grid[row][col - 1].currentWall)
+		) {
+			validNeighbors.push(grid[row + 1][col - 1]);
+		}
+	}
+	if (col < grid.length - 1 && row > 0) {
+		if (
+			(unvisitedNeighbors.includes(grid[row - 1][col]) &&
+				!grid[row - 1][col].currentWall) ||
+			(unvisitedNeighbors.includes(grid[row][col + 1]) &&
+				!grid[row][col + 1].currentWall)
+		) {
+			validNeighbors.push(grid[row - 1][col + 1]);
+		}
+	}
+	if (col < grid.length - 1 && row < grid[0].length - 1) {
+		if (
+			(unvisitedNeighbors.includes(grid[row + 1][col]) &&
+				!grid[row + 1][col].currentWall) ||
+			(unvisitedNeighbors.includes(grid[row][col + 1]) &&
+				!grid[row][col + 1].currentWall)
+		) {
+			validNeighbors.push(grid[row + 1][col + 1]);
+		}
+	}
+	return validNeighbors.filter(
+		(neighbor) => !neighbor.beenVisited && !neighbor.currentWall
+	);
 }
 
 function sortCells(remainingCells) {

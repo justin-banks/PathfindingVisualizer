@@ -72,13 +72,23 @@ export default function SimpleTabs(props) {
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
-				<PathfindingOptions changeProp={props.checkPassback} />
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setAllowDiagonal={props.setAllowDiagonal}
+					disable={true}
+				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				<PathfindingOptions changeProp={props.checkPassback} disable={true} />
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				<PathfindingOptions changeProp={props.checkPassback} />
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
 			</TabPanel>
 		</div>
 	);

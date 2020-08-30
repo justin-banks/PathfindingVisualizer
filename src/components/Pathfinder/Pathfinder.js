@@ -19,6 +19,7 @@ class Pathfinder extends Component {
 		this.state = {
 			heuristicSelection: "1",
 			algorithm: 0,
+			allowDiagonal: false,
 			grid: [],
 			row: 0,
 			col: 0,
@@ -126,7 +127,8 @@ class Pathfinder extends Component {
 		var visitedCells = getPath(
 			grid,
 			this.state.algorithm,
-			this.state.heuristicSelection
+			this.state.heuristicSelection,
+			this.state.allowDiagonal
 		);
 		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells, grid);
@@ -137,41 +139,29 @@ class Pathfinder extends Component {
 	};
 
 	resetPassback = () => {
-		this.setState({ selection: "1" });
+		this.setState({ selection: "1", allowDiagonal: false });
 	};
 
 	selectedAlgorithm = (algorithm) => {
 		this.setState({ algorithm: algorithm });
 	};
 
+	setAllowDiagonal = (check) => {
+		this.setState({ allowDiagonal: check });
+	};
+
 	render() {
-		const {
-			row,
-			col,
-			finishMoving,
-			startMoving,
-			becomingWall,
-			mouseIsPressed,
-		} = this.state;
+		const { row, col } = this.state;
 		return (
 			<div>
 				<NavigationMenu
 					checkPassback={this.callBackFunction}
 					resetPassback={this.resetPassback}
 					selectedAlgorithm={this.selectedAlgorithm}
+					setAllowDiagonal={this.setAllowDiagonal}
 				/>
 				<ControlButtons pathfind={this.computePath} reset={this.resetGrid} />
-				<Grid
-					row={row}
-					col={col}
-					handleMouseDown={this.handleMouseDown}
-					handleMouseUp={() => this.handleMouseUp()}
-					handleMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
-					finishMoving={finishMoving}
-					startMoving={startMoving}
-					becomingWall={becomingWall}
-					mouseIsPressed={mouseIsPressed}
-				/>
+				<Grid row={row} col={col} />
 			</div>
 		);
 	}
