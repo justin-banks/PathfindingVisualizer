@@ -75,18 +75,21 @@ export default function SimpleTabs(props) {
 				<PathfindingOptions
 					changeProp={props.checkPassback}
 					setAllowDiagonal={props.setAllowDiagonal}
+					setDontCutCorners={props.setDontCutCorners}
 					disable={true}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<PathfindingOptions
 					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
 				<PathfindingOptions
 					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
 				/>
 			</TabPanel>

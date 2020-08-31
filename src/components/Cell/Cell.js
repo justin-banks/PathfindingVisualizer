@@ -8,6 +8,7 @@ class Cell extends Component {
 			currentWall: "",
 			startPoint: "",
 			finishPoint: "",
+			wasWall: false,
 		};
 	}
 
@@ -27,13 +28,22 @@ class Cell extends Component {
 			startMoving,
 			becomingWall,
 		} = this.props;
+		const { startPoint, finishPoint } = this.state;
 		console.log(startMoving);
-		if (!mouseIsPressed) return;
+		if (!mouseIsPressed || startPoint !== "" || finishPoint !== "") return;
 
 		if (startMoving) {
-			this.setState({ startPoint: "StartPoint" });
+			this.setState({
+				startPoint: "StartPoint",
+				wasWall: this.state.currentWall !== "",
+				currentWall: "",
+			});
 		} else if (finishMoving) {
-			this.setState({ finishPoint: "FinishPoint" });
+			this.setState({
+				finishPoint: "FinishPoint",
+				wasWall: this.state.currentWall !== "",
+				currentWall: "",
+			});
 		} else {
 			becomingWall
 				? this.setState({ currentWall: "CurrentWall" })
@@ -74,9 +84,15 @@ class Cell extends Component {
 		if (!mouseIsPressed) return;
 
 		if (startMoving) {
-			this.setState({ startPoint: "" });
+			this.setState({
+				startPoint: "",
+				currentWall: this.state.wasWall ? "CurrentWall" : "",
+			});
 		} else if (finishMoving) {
-			this.setState({ finishPoint: "" });
+			this.setState({
+				finishPoint: "",
+				currentWall: this.state.wasWall ? "CurrentWall" : "",
+			});
 		}
 	};
 

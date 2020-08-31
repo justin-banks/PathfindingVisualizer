@@ -17,7 +17,7 @@ class Pathfinder extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			heuristicSelection: "1",
+			heuristicSelection: "Manhattan",
 			algorithm: 0,
 			allowDiagonal: false,
 			grid: [],
@@ -25,6 +25,7 @@ class Pathfinder extends Component {
 			col: 0,
 			resetOption: false,
 			visitedCells: [],
+			dontCutCorners: false,
 		};
 	}
 
@@ -128,7 +129,8 @@ class Pathfinder extends Component {
 			grid,
 			this.state.algorithm,
 			this.state.heuristicSelection,
-			this.state.allowDiagonal
+			this.state.allowDiagonal,
+			this.state.dontCutCorners
 		);
 		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells, grid);
@@ -139,7 +141,11 @@ class Pathfinder extends Component {
 	};
 
 	resetPassback = () => {
-		this.setState({ selection: "1", allowDiagonal: false });
+		this.setState({
+			heuristicSelection: "Manhattan",
+			allowDiagonal: false,
+			dontCutCorners: false,
+		});
 	};
 
 	selectedAlgorithm = (algorithm) => {
@@ -148,6 +154,10 @@ class Pathfinder extends Component {
 
 	setAllowDiagonal = (check) => {
 		this.setState({ allowDiagonal: check });
+	};
+
+	setDontCutCorners = (check) => {
+		this.setState({ dontCutCorners: check });
 	};
 
 	render() {
@@ -159,6 +169,7 @@ class Pathfinder extends Component {
 					resetPassback={this.resetPassback}
 					selectedAlgorithm={this.selectedAlgorithm}
 					setAllowDiagonal={this.setAllowDiagonal}
+					setDontCutCorners={this.setDontCutCorners}
 				/>
 				<ControlButtons pathfind={this.computePath} reset={this.resetGrid} />
 				<Grid row={row} col={col} />

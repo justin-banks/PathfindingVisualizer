@@ -47,7 +47,13 @@ export function getAllCells(grid) {
 	return cells;
 }
 
-export function pathfindFunction(grid, heuristic, allowDiagonals) {
+export function pathfindFunction(
+	grid,
+	heuristic,
+	allowDiagonals,
+	dontCutCorners,
+	heuristicOption
+) {
 	const startCell = findStart(grid);
 	const finishCell = findFinish(grid);
 	const cellsInOrder = [];
@@ -75,21 +81,52 @@ export function pathfindFunction(grid, heuristic, allowDiagonals) {
 			grid,
 			heuristic,
 			finishCell,
-			allowDiagonals
+			allowDiagonals,
+			dontCutCorners,
+			heuristicOption
 		);
 	}
 }
 
-function updateNeighbors(cell, grid, heuristic, finishCell, allowDiagonals) {
-	console.log(allowDiagonals);
+function updateNeighbors(
+	cell,
+	grid,
+	heuristic,
+	finishCell,
+	allowDiagonals,
+	dontCutCorners,
+	heuristicOption
+) {
 	const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
 	var diagonalUnvisitedNeighbors = [];
 	if (allowDiagonals) {
-		diagonalUnvisitedNeighbors = diagonalCells(cell, grid, unvisitedNeighbors);
+		diagonalUnvisitedNeighbors = diagonalCells(
+			cell,
+			grid,
+			unvisitedNeighbors,
+			dontCutCorners
+		);
 	}
+
+	var cardinalCost;
+	var diagonalCost;
+	switch (heuristicOption) {
+		case "Chebyschev":
+			cardinalCost = 1;
+			diagonalCost = 1;
+			break;
+		case "Octile":
+			cardinalCost = 1;
+			diagonalCost = Math.SQRT2;
+			break;
+		default:
+			cardinalCost = 10;
+			diagonalCost = 14;
+	}
+
 	for (const neighbor of unvisitedNeighbors) {
-		if (neighbor.distance > cell.distance + 10) {
-			neighbor.distance = cell.distance + 10;
+		if (neighbor.distance > cell.distance + cardinalCost) {
+			neighbor.distance = cell.distance + cardinalCost;
 			neighbor.heuristicDistance =
 				neighbor.distance +
 				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
@@ -97,8 +134,8 @@ function updateNeighbors(cell, grid, heuristic, finishCell, allowDiagonals) {
 		}
 	}
 	for (const neighbor of diagonalUnvisitedNeighbors) {
-		if (neighbor.distance > cell.distance + 14) {
-			neighbor.distance = cell.distance + 14;
+		if (neighbor.distance > cell.distance + diagonalCost) {
+			neighbor.distance = cell.distance + diagonalCost;
 			neighbor.heuristicDistance =
 				neighbor.distance +
 				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
@@ -107,47 +144,66 @@ function updateNeighbors(cell, grid, heuristic, finishCell, allowDiagonals) {
 	}
 }
 
-function diagonalCells(cell, grid, unvisitedNeighbors) {
+function diagonalCells(cell, grid, unvisitedNeighbors, dontCutCorners) {
 	const { row, col } = cell;
-	console.log("row: " + row + " col:" + col);
 	const validNeighbors = [];
 
 	if (col > 0 && row > 0) {
 		if (
-			(unvisitedNeighbors.includes(grid[row - 1][col]) &&
-				!grid[row - 1][col].currentWall) ||
-			(unvisitedNeighbors.includes(grid[row][col - 1]) &&
-				!grid[row][col - 1].currentWall)
+			checkDiagonalCellsHelper(
+				row,
+				col,
+				row - 1,
+				col - 1,
+				grid,
+				dontCutCorners,
+				unvisitedNeighbors
+			)
 		) {
 			validNeighbors.push(grid[row - 1][col - 1]);
 		}
 	}
 	if (col > 0 && row < grid[0].length - 1) {
 		if (
-			(unvisitedNeighbors.includes(grid[row + 1][col]) &&
-				!grid[row + 1][col].currentWall) ||
-			(unvisitedNeighbors.includes(grid[row][col - 1]) &&
-				!grid[row][col - 1].currentWall)
+			checkDiagonalCellsHelper(
+				row,
+				col,
+				row + 1,
+				col - 1,
+				grid,
+				dontCutCorners,
+				unvisitedNeighbors
+			)
 		) {
 			validNeighbors.push(grid[row + 1][col - 1]);
 		}
 	}
 	if (col < grid.length - 1 && row > 0) {
 		if (
-			(unvisitedNeighbors.includes(grid[row - 1][col]) &&
-				!grid[row - 1][col].currentWall) ||
-			(unvisitedNeighbors.includes(grid[row][col + 1]) &&
-				!grid[row][col + 1].currentWall)
+			checkDiagonalCellsHelper(
+				row,
+				col,
+				row - 1,
+				col + 1,
+				grid,
+				dontCutCorners,
+				unvisitedNeighbors
+			)
 		) {
 			validNeighbors.push(grid[row - 1][col + 1]);
 		}
 	}
 	if (col < grid.length - 1 && row < grid[0].length - 1) {
 		if (
-			(unvisitedNeighbors.includes(grid[row + 1][col]) &&
-				!grid[row + 1][col].currentWall) ||
-			(unvisitedNeighbors.includes(grid[row][col + 1]) &&
-				!grid[row][col + 1].currentWall)
+			checkDiagonalCellsHelper(
+				row,
+				col,
+				row + 1,
+				col + 1,
+				grid,
+				dontCutCorners,
+				unvisitedNeighbors
+			)
 		) {
 			validNeighbors.push(grid[row + 1][col + 1]);
 		}
@@ -155,6 +211,32 @@ function diagonalCells(cell, grid, unvisitedNeighbors) {
 	return validNeighbors.filter(
 		(neighbor) => !neighbor.beenVisited && !neighbor.currentWall
 	);
+}
+
+function checkDiagonalCellsHelper(
+	currRow,
+	currCol,
+	nextRow,
+	nextCol,
+	grid,
+	dontCutCorners,
+	unvisitedNeighbors
+) {
+	if (dontCutCorners) {
+		return (
+			unvisitedNeighbors.includes(grid[nextRow][currCol]) &&
+			!grid[nextRow][currCol].currentWall &&
+			unvisitedNeighbors.includes(grid[currRow][nextCol]) &&
+			!grid[currRow][nextCol].currentWall
+		);
+	} else {
+		return (
+			(unvisitedNeighbors.includes(grid[nextRow][currCol]) &&
+				!grid[nextRow][currCol].currentWall) ||
+			(unvisitedNeighbors.includes(grid[currRow][nextCol]) &&
+				!grid[currRow][nextCol].currentWall)
+		);
+	}
 }
 
 function sortCells(remainingCells) {

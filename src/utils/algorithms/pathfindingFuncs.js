@@ -1,9 +1,21 @@
-import { noHeuristic, makeHeuristic } from "./heuristics";
+import {
+	noHeuristic,
+	manhattanHeuristic,
+	octileHeuristic,
+	euclideanHeuristic,
+	chebyshevHeuristic,
+} from "./heuristics";
 import { pathfindFunction, findFinish } from "./../helpers/gridFunctions";
-export function getPath(grid, algorithmOption, heuristicOption, allowDiagonal) {
+export function getPath(
+	grid,
+	algorithmOption,
+	heuristicOption,
+	allowDiagonal,
+	dontCutCorners
+) {
 	switch (algorithmOption) {
 		case 0:
-			heuristicOption = 0;
+			heuristicOption = "0";
 			break;
 	}
 	var heuristic;
@@ -11,13 +23,28 @@ export function getPath(grid, algorithmOption, heuristicOption, allowDiagonal) {
 		case "0":
 			heuristic = noHeuristic();
 			break;
-		case "1":
-			heuristic = makeHeuristic();
+		case "Manhattan":
+			heuristic = manhattanHeuristic();
 			break;
+		case "Octile":
+			console.log("here");
+			heuristic = octileHeuristic();
+			break;
+		case "Euclidean":
+			heuristic = euclideanHeuristic();
+			break;
+		case "Chebyschev":
+			heuristic = chebyshevHeuristic();
 		default:
 			heuristic = noHeuristic();
 	}
-	return pathfindFunction(grid, heuristic, allowDiagonal);
+	return pathfindFunction(
+		grid,
+		heuristic,
+		allowDiagonal,
+		dontCutCorners,
+		heuristicOption
+	);
 }
 
 export function getShortestPath(grid) {

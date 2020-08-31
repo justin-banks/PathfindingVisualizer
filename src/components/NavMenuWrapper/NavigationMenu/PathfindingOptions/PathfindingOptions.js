@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 export default function RadioButtonsGroup(props) {
 	const [value, setValue] = React.useState(() => {
-		return "1";
+		return "Manhattan";
 	});
 
 	const handleChange = (event) => {
@@ -22,11 +22,17 @@ export default function RadioButtonsGroup(props) {
 		return false;
 	});
 	const handleDiagonalAllowedChange = (event) => {
-		console.log(event.target.checked);
 		setDiagonalAllowed(event.target.checked);
 		props.setAllowDiagonal(event.target.checked);
 	};
 
+	const [dontCutCorners, setDontCutCorners] = React.useState(() => {
+		return false;
+	});
+	const handleCutCorner = (event) => {
+		setDontCutCorners(event.target.checked);
+		props.setDontCutCorners(event.target.checked);
+	};
 	return (
 		<FormControl component="fieldset" size="small">
 			<FormLabel component="legend">Heuristic Choice</FormLabel>
@@ -39,26 +45,26 @@ export default function RadioButtonsGroup(props) {
 				<div className="row">
 					<div className="column">
 						<FormControlLabel
-							value={"1"}
+							value={"Manhattan"}
 							control={<Radio size="small" disabled={props.disable} />}
-							label="Euclidean"
+							label="Manhattan"
 						/>
 						<FormControlLabel
-							value={"2"}
+							value={"Euclidean"}
 							control={<Radio size="small" disabled={props.disable} />}
-							label="Proportional"
+							label="Euclidean"
 						/>
 					</div>
 					<div className="column">
 						<FormControlLabel
-							value={"3"}
+							value={"Octile"}
 							control={<Radio size="small" disabled={props.disable} />}
-							label="Other"
+							label="Octile"
 						/>
 						<FormControlLabel
-							value={"4"}
+							value={"Chebyschev"}
 							control={<Radio size="small" disabled={props.disable} />}
-							label="(Disabled option)"
+							label="Chebyschev"
 						/>
 					</div>
 					<div className="column">
@@ -69,9 +75,22 @@ export default function RadioButtonsGroup(props) {
 									onChange={handleDiagonalAllowedChange}
 									name="diagonalAllowed"
 									color="secondary"
+									size="small"
 								/>
 							}
 							label="allow diagonal"
+						/>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={dontCutCorners}
+									onChange={handleCutCorner}
+									name="disallowCutCorner"
+									color="secondary"
+									size="small"
+								/>
+							}
+							label="don't cut corners"
 						/>
 					</div>
 				</div>
