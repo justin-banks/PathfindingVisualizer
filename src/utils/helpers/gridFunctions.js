@@ -60,6 +60,7 @@ export function pathfindFunction(
 	const cellsInOrder = [];
 	startCell.distance = 0;
 	startCell.heuristicDistanceTotal = 0;
+	startCell.heuristicDistance = 0;
 	const remainingCells = getAllCells(grid);
 	while (!!remainingCells.length) {
 		switch (algorithmOptions) {
