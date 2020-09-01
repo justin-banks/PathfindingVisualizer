@@ -43,7 +43,8 @@ export function getPath(
 		heuristic,
 		allowDiagonal,
 		dontCutCorners,
-		heuristicOption
+		heuristicOption,
+		algorithmOption
 	);
 }
 

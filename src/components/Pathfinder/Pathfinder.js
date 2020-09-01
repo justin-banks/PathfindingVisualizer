@@ -118,6 +118,7 @@ class Pathfinder extends Component {
 			distance: Infinity,
 			parent: null,
 			beenVisited: false,
+			heuristicDistanceTotal: Infinity,
 			heuristicDistance: Infinity,
 		};
 	};

@@ -63,12 +63,20 @@ export default function SimpleTabs(props) {
 			<AppBar position="static">
 				<Tabs
 					value={value}
+					variant="scrollable"
+					scrollButtons="auto"
 					onChange={handleChange}
 					aria-label="simple tabs example"
 				>
 					<Tab label="Dijkstra" {...a11yProps(0)} />
 					<Tab label="A star" {...a11yProps(1)} />
-					<Tab label="Another Option" {...a11yProps(2)} />
+					<Tab label="Best First Search1" {...a11yProps(2)} />
+					<Tab label="Best First Search2" {...a11yProps(3)} />
+					<Tab label="Best First Search3" {...a11yProps(4)} />
+					<Tab label="Best First Search4" {...a11yProps(5)} />
+					<Tab label="Best First Search5" {...a11yProps(6)} />
+					<Tab label="Best First Search6" {...a11yProps(7)} />
+					<Tab label="Best First Search7" {...a11yProps(8)} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
@@ -87,6 +95,48 @@ export default function SimpleTabs(props) {
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={3}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={4}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={5}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={6}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={7}>
+				<PathfindingOptions
+					changeProp={props.checkPassback}
+					setDontCutCorners={props.setDontCutCorners}
+					setAllowDiagonal={props.setAllowDiagonal}
+				/>
+			</TabPanel>
+			<TabPanel value={value} index={8}>
 				<PathfindingOptions
 					changeProp={props.checkPassback}
 					setDontCutCorners={props.setDontCutCorners}

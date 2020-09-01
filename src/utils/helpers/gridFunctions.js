@@ -52,16 +52,24 @@ export function pathfindFunction(
 	heuristic,
 	allowDiagonals,
 	dontCutCorners,
-	heuristicOption
+	heuristicOption,
+	algorithmOptions
 ) {
 	const startCell = findStart(grid);
 	const finishCell = findFinish(grid);
 	const cellsInOrder = [];
 	startCell.distance = 0;
-	startCell.heuristicDistance = 0;
+	startCell.heuristicDistanceTotal = 0;
 	const remainingCells = getAllCells(grid);
 	while (!!remainingCells.length) {
-		sortCells(remainingCells);
+		switch (algorithmOptions) {
+			case 2:
+				sortCellsHeuristic(remainingCells);
+				break;
+			default:
+				sortCells(remainingCells);
+				break;
+		}
 
 		const lowestDistanceCell = remainingCells.shift();
 		if (lowestDistanceCell.currentWall) {
@@ -83,7 +91,8 @@ export function pathfindFunction(
 			finishCell,
 			allowDiagonals,
 			dontCutCorners,
-			heuristicOption
+			heuristicOption,
+			algorithmOptions
 		);
 	}
 }
@@ -127,19 +136,31 @@ function updateNeighbors(
 	for (const neighbor of unvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + cardinalCost) {
 			neighbor.distance = cell.distance + cardinalCost;
-			neighbor.heuristicDistance =
+			neighbor.heuristicDistanceTotal =
 				neighbor.distance +
 				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
 			neighbor.parent = cell;
+			neighbor.heuristicDistance = heuristic(
+				neighbor.row,
+				neighbor.col,
+				finishCell.row,
+				finishCell.col
+			);
 		}
 	}
 	for (const neighbor of diagonalUnvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + diagonalCost) {
 			neighbor.distance = cell.distance + diagonalCost;
-			neighbor.heuristicDistance =
+			neighbor.heuristicDistanceTotal =
 				neighbor.distance +
 				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
 			neighbor.parent = cell;
+			neighbor.heuristicDistance = heuristic(
+				neighbor.row,
+				neighbor.col,
+				finishCell.row,
+				finishCell.col
+			);
 		}
 	}
 }
@@ -240,6 +261,13 @@ function checkDiagonalCellsHelper(
 }
 
 function sortCells(remainingCells) {
+	remainingCells.sort(
+		(cellA, cellB) =>
+			cellA.heuristicDistanceTotal - cellB.heuristicDistanceTotal
+	);
+}
+
+function sortCellsHeuristic(remainingCells) {
 	remainingCells.sort(
 		(cellA, cellB) => cellA.heuristicDistance - cellB.heuristicDistance
 	);
