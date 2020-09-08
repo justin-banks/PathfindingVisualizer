@@ -6,6 +6,7 @@ import {
 	chebyshevHeuristic,
 } from "./heuristics";
 import { pathfindFunction, findFinish } from "./../helpers/gridFunctions";
+import { jumpPoint } from "./../helpers/jumpPoint";
 export function getPath(
 	grid,
 	algorithmOption,
@@ -37,6 +38,9 @@ export function getPath(
 			heuristic = chebyshevHeuristic();
 		default:
 			heuristic = noHeuristic();
+	}
+	if (algorithmOption == 3) {
+		return jumpPoint(grid, heuristic);
 	}
 	return pathfindFunction(
 		grid,
