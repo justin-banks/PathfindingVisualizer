@@ -20,7 +20,10 @@ export default function ControlButtons(props) {
 				Pathfind
 			</Button>
 			<Button variant="contained" color="secondary" onClick={props.reset}>
-				Reset
+				Reset Pathfinding
+			</Button>
+			<Button variant="contained" color="secondary" onClick={props.clearWalls}>
+				Clear Walls
 			</Button>
 		</div>
 	);

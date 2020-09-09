@@ -14,10 +14,14 @@ class Cell extends Component {
 
 	componentDidMount() {
 		if (this.props.startPoint) {
-			this.setState({ startPoint: "StartPoint" });
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.add("StartPoint");
 		}
 		if (this.props.finishPoint) {
-			this.setState({ finishPoint: "FinishPoint" });
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.add("FinishPoint");
 		}
 	}
 
@@ -29,25 +33,49 @@ class Cell extends Component {
 			becomingWall,
 		} = this.props;
 		const { startPoint, finishPoint } = this.state;
-		console.log(startMoving);
-		if (!mouseIsPressed || startPoint !== "" || finishPoint !== "") return;
+		if (
+			!mouseIsPressed ||
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.contains("StartPoint") ||
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.contains("FinishPoint")
+		)
+			return;
 
 		if (startMoving) {
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.add("StartPoint");
 			this.setState({
-				startPoint: "StartPoint",
-				wasWall: this.state.currentWall !== "",
-				currentWall: "",
+				wasWall: document
+					.getElementById(`cell-${this.props.row}-${this.props.col}`)
+					.classList.contains("CurrentWall"),
 			});
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove("CurrentWall");
 		} else if (finishMoving) {
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.add("FinishPoint");
 			this.setState({
-				finishPoint: "FinishPoint",
-				wasWall: this.state.currentWall !== "",
-				currentWall: "",
+				wasWall: document
+					.getElementById(`cell-${this.props.row}-${this.props.col}`)
+					.classList.contains("CurrentWall"),
 			});
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove("CurrentWall");
 		} else {
 			becomingWall
-				? this.setState({ currentWall: "CurrentWall" })
-				: this.setState({ currentWall: "" });
+				? document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.add("CurrentWall")
+				: document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.remove("CurrentWall");
 		}
 	};
 
@@ -63,13 +91,33 @@ class Cell extends Component {
 
 		if (mouseIsPressed) return;
 
-		if (finishPoint !== "") assertFinishMoving();
-		else if (startPoint !== "") assertStartMoving();
+		if (
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.contains("FinishPoint")
+		)
+			assertFinishMoving();
+		else if (
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.contains("StartPoint")
+		)
+			assertStartMoving();
 		else {
-			currentWall === ""
-				? this.setState({ currentWall: "CurrentWall" })
-				: this.setState({ currentWall: "" });
-			assertBecomingWall(currentWall === "");
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.contains("CurrentWall")
+				? document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.remove("CurrentWall")
+				: document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.add("CurrentWall");
+			assertBecomingWall(
+				document
+					.getElementById(`cell-${this.props.row}-${this.props.col}`)
+					.classList.contains("CurrentWall")
+			);
 		}
 		assertMouseIsPressed();
 	};
@@ -84,15 +132,27 @@ class Cell extends Component {
 		if (!mouseIsPressed) return;
 
 		if (startMoving) {
-			this.setState({
-				startPoint: "",
-				currentWall: this.state.wasWall ? "CurrentWall" : "",
-			});
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove("StartPoint");
+			this.state.wasWall
+				? document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.add("CurrentWall")
+				: document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.remove("CurrentWall");
 		} else if (finishMoving) {
-			this.setState({
-				finishPoint: "",
-				currentWall: this.state.wasWall ? "CurrentWall" : "",
-			});
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove("FinishPoint");
+			this.state.wasWall
+				? document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.add("CurrentWall")
+				: document
+						.getElementById(`cell-${this.props.row}-${this.props.col}`)
+						.classList.remove("CurrentWall");
 		}
 	};
 
@@ -102,7 +162,7 @@ class Cell extends Component {
 		return (
 			<div
 				id={`cell-${row}-${col}`}
-				className={`Cell CellButton ${currentWall} ${finishPoint} ${startPoint}`}
+				className={`Cell CellButton`}
 				onMouseDown={() => this.handleMouseDown(row, col)}
 				onMouseEnter={() => this.handleMouseEnter(row, col)}
 				onMouseUp={() => this.handleMouseUp()}

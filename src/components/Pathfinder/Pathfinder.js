@@ -51,6 +51,17 @@ class Pathfinder extends Component {
 		this.setState({ resetOption: false });
 	};
 
+	clearWalls = () => {
+		const { row, col } = this.state;
+		for (let i = 0; i < row; i++) {
+			for (let j = 0; j < col; j++) {
+				document
+					.getElementById(`cell-${i}-${j}`)
+					.classList.remove("CurrentWall");
+			}
+		}
+	};
+
 	visualizeAlgorithm(visitedCells, grid) {
 		const shortestPath = getShortestPath(grid);
 		for (let i = 1; i <= visitedCells.length; i++) {
@@ -185,7 +196,11 @@ class Pathfinder extends Component {
 					setAllowDiagonal={this.setAllowDiagonal}
 					setDontCutCorners={this.setDontCutCorners}
 				/>
-				<ControlButtons pathfind={this.computePath} reset={this.resetGrid} />
+				<ControlButtons
+					pathfind={this.computePath}
+					reset={this.resetGrid}
+					clearWalls={this.clearWalls}
+				/>
 				<Grid row={row} col={col} />
 			</div>
 		);
