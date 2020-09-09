@@ -72,7 +72,7 @@ export default function SimpleTabs(props) {
 					<Tab label="A star" {...a11yProps(1)} />
 					<Tab label="Best First Search" {...a11yProps(2)} />
 					<Tab label="Jump Point Search" {...a11yProps(3)} />
-					<Tab label="Best First Search3" {...a11yProps(4)} />
+					<Tab label="Breadth First Search" {...a11yProps(4)} />
 					<Tab label="Best First Search4" {...a11yProps(5)} />
 					<Tab label="Best First Search5" {...a11yProps(6)} />
 					<Tab label="Best First Search6" {...a11yProps(7)} />

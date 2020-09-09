@@ -105,7 +105,8 @@ function updateNeighbors(
 	finishCell,
 	allowDiagonals,
 	dontCutCorners,
-	heuristicOption
+	heuristicOption,
+	algorithmOptions
 ) {
 	const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
 	var diagonalUnvisitedNeighbors = [];
@@ -133,9 +134,13 @@ function updateNeighbors(
 	for (const neighbor of unvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + cardinalCost) {
 			neighbor.distance = cell.distance + cardinalCost;
-			neighbor.heuristicDistanceTotal =
-				neighbor.distance +
-				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+			if (algorithmOptions === 4) {
+				neighbor.heuristicDistanceTotal = cell.heuristicDistanceTotal + 1;
+			} else {
+				neighbor.heuristicDistanceTotal =
+					neighbor.distance +
+					heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+			}
 			neighbor.parent = cell;
 			neighbor.heuristicDistance = heuristic(
 				neighbor.row,
@@ -148,9 +153,13 @@ function updateNeighbors(
 	for (const neighbor of diagonalUnvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + diagonalCost) {
 			neighbor.distance = cell.distance + diagonalCost;
-			neighbor.heuristicDistanceTotal =
-				neighbor.distance +
-				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+			if (algorithmOptions === 4) {
+				neighbor.heuristicDistanceTotal = cell.heuristicDistanceTotal + 1;
+			} else {
+				neighbor.heuristicDistanceTotal =
+					neighbor.distance +
+					heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+			}
 			neighbor.parent = cell;
 			neighbor.heuristicDistance = heuristic(
 				neighbor.row,
