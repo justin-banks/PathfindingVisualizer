@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import NavigationMenu from "./components/NavMenuWrapper/NavMenuWrapper";
+import Pathfinder from "./components/Pathfinder/Pathfinder";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<NavigationMenu />
+		<Pathfinder />
 	</React.StrictMode>,
 	document.getElementById("root")
 );

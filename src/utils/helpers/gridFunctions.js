@@ -121,10 +121,6 @@ function updateNeighbors(
 	var cardinalCost;
 	var diagonalCost;
 	switch (heuristicOption) {
-		case "Chebyschev":
-			cardinalCost = 1;
-			diagonalCost = 1;
-			break;
 		case "Octile":
 			cardinalCost = 1;
 			diagonalCost = Math.SQRT2;
@@ -261,7 +257,7 @@ function checkDiagonalCellsHelper(
 	}
 }
 
-function sortCells(remainingCells) {
+export function sortCells(remainingCells) {
 	remainingCells.sort(
 		(cellA, cellB) =>
 			cellA.heuristicDistanceTotal - cellB.heuristicDistanceTotal

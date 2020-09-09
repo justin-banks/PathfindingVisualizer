@@ -30,7 +30,7 @@ export function chebyshevHeuristic() {
 	return function (cellRow, cellCol, finishRow, finishCol) {
 		const deltaRow = Math.abs(cellRow - finishRow);
 		const deltaCol = Math.abs(cellCol - finishCol);
-		return deltaRow + deltaCol - Math.min(deltaRow, deltaCol);
+		return 10 * Math.max(deltaRow, deltaCol);
 	};
 }
 

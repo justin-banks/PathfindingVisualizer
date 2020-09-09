@@ -54,15 +54,6 @@ class Pathfinder extends Component {
 	visualizeAlgorithm(visitedCells, grid) {
 		const shortestPath = getShortestPath(grid);
 		for (let i = 1; i <= visitedCells.length; i++) {
-			if (i === visitedCells.length - 1) {
-				const cell = visitedCells[i];
-				if (
-					document
-						.getElementById(`cell-${cell.row}-${cell.col}`)
-						.classList.contains("FinishPoint")
-				)
-					continue;
-			}
 			if (i === visitedCells.length) {
 				setTimeout(() => {
 					this.animateShortestPath(shortestPath);
@@ -70,6 +61,16 @@ class Pathfinder extends Component {
 				this.setState({ resetOption: true });
 				return;
 			}
+			const cell = visitedCells[i];
+			if (
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.contains("FinishPoint") ||
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.contains("StartPoint")
+			)
+				continue;
 			setTimeout(() => {
 				const cell = visitedCells[i];
 				document
@@ -81,6 +82,16 @@ class Pathfinder extends Component {
 
 	animateShortestPath(shortestPath) {
 		for (let i = 0; i < shortestPath.length - 1; i++) {
+			const cell = shortestPath[i];
+			if (
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.contains("FinishPoint") ||
+				document
+					.getElementById(`cell-${cell.row}-${cell.col}`)
+					.classList.contains("StartPoint")
+			)
+				continue;
 			setTimeout(() => {
 				const cell = shortestPath[i];
 				document
@@ -120,12 +131,14 @@ class Pathfinder extends Component {
 			beenVisited: false,
 			heuristicDistanceTotal: Infinity,
 			heuristicDistance: Infinity,
+			direction: [],
 		};
 	};
 
 	computePath = () => {
 		this.resetGrid();
 		const grid = this.createGrid(this.state.row, this.state.col);
+		console.log(grid);
 		var visitedCells = getPath(
 			grid,
 			this.state.algorithm,
