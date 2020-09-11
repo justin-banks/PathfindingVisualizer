@@ -30,18 +30,18 @@ class Pathfinder extends Component {
 			resetOption: false,
 			visitedCells: [],
 			dontCutCorners: false,
+			visitedCellsAnimation: [],
+			shortestPathAnimation: [],
+			mazeCreationAnimation: [],
 		};
 	}
 
 	componentDidMount() {
-		/*this.setState({
-			row: Math.min(this.props.row, maxRow),
-			col: Math.min(this.props.col, maxCol),
-		});*/
-		this.setState({ row: 50, col: 120 });
+		this.setState({ row: 30, col: 30 });
 	}
 
 	resetGrid = () => {
+		this.cancelAnimations();
 		const { row, col } = this.state;
 		for (let i = 0; i < row; i++) {
 			for (let j = 0; j < col; j++) {
@@ -50,7 +50,7 @@ class Pathfinder extends Component {
 					.classList.remove("cell-visited");
 				document
 					.getElementById(`cell-${i}-${j}`)
-					.classList.remove("cell-shortestPath");
+					.classList.remove("cell-shortestPath", "mazeTemp", "mazeFinal");
 			}
 		}
 		this.setState({ resetOption: false });
@@ -69,12 +69,18 @@ class Pathfinder extends Component {
 
 	visualizeAlgorithm(visitedCells, grid) {
 		const shortestPath = getShortestPath(grid);
+		var visitedCellsAnimation = [];
 		for (let i = 1; i <= visitedCells.length; i++) {
 			if (i === visitedCells.length) {
-				setTimeout(() => {
-					this.animateShortestPath(shortestPath);
-				}, 10 * i);
-				this.setState({ resetOption: true });
+				visitedCellsAnimation.push(
+					setTimeout(() => {
+						this.animateShortestPath(shortestPath);
+					}, 10 * i)
+				);
+				this.setState({
+					resetOption: true,
+					visitedCellsAnimation: visitedCellsAnimation,
+				});
 				return;
 			}
 			const cell = visitedCells[i];
@@ -87,16 +93,19 @@ class Pathfinder extends Component {
 					.classList.contains("StartPoint")
 			)
 				continue;
-			setTimeout(() => {
-				const cell = visitedCells[i];
-				document
-					.getElementById(`cell-${cell.row}-${cell.col}`)
-					.classList.add("cell-visited");
-			}, 10 * i);
+			visitedCellsAnimation.push(
+				setTimeout(() => {
+					const cell = visitedCells[i];
+					document
+						.getElementById(`cell-${cell.row}-${cell.col}`)
+						.classList.add("cell-visited");
+				}, 10 * i)
+			);
 		}
 	}
 
 	animateShortestPath(shortestPath) {
+		var shortestPathAnimation = [];
 		for (let i = 0; i < shortestPath.length - 1; i++) {
 			const cell = shortestPath[i];
 			if (
@@ -108,13 +117,16 @@ class Pathfinder extends Component {
 					.classList.contains("StartPoint")
 			)
 				continue;
-			setTimeout(() => {
-				const cell = shortestPath[i];
-				document
-					.getElementById(`cell-${cell.row}-${cell.col}`)
-					.classList.add("cell-shortestPath");
-			}, 50 * i);
+			shortestPathAnimation.push(
+				setTimeout(() => {
+					const cell = shortestPath[i];
+					document
+						.getElementById(`cell-${cell.row}-${cell.col}`)
+						.classList.add("cell-shortestPath");
+				}, 50 * i)
+			);
 		}
+		this.setState({ shortestPathAnimation: shortestPathAnimation });
 	}
 
 	createGrid = (row, col) => {
@@ -220,37 +232,45 @@ class Pathfinder extends Component {
 			Math.ceil(row / 2),
 			Math.ceil(col / 2)
 		);
+		var mazeCreationAnimation = [];
 		for (let i = 0; i < createdMaze.length; i++) {
 			const currCell = createdMaze[i];
 			if (currCell.beenConnected) {
-				setTimeout(() => {
-					document
-						.getElementById(`cell-${currCell.row}-${currCell.col}`)
-						.classList.remove("mazeTemp");
-					document
-						.getElementById(`cell-${currCell.row}-${currCell.col}`)
-						.classList.add("mazeFinal");
-				}, 20 * i);
+				mazeCreationAnimation.push(
+					setTimeout(() => {
+						document
+							.getElementById(`cell-${currCell.row}-${currCell.col}`)
+							.classList.remove("mazeTemp");
+						document
+							.getElementById(`cell-${currCell.row}-${currCell.col}`)
+							.classList.add("mazeFinal");
+					}, 20 * i)
+				);
 			} else {
-				setTimeout(() => {
-					document
-						.getElementById(`cell-${currCell.row}-${currCell.col}`)
-						.classList.remove("CurrentWall");
-					document
-						.getElementById(`cell-${currCell.row}-${currCell.col}`)
-						.classList.add("mazeTemp");
-				}, 20 * i);
+				mazeCreationAnimation.push(
+					setTimeout(() => {
+						document
+							.getElementById(`cell-${currCell.row}-${currCell.col}`)
+							.classList.remove("CurrentWall");
+						document
+							.getElementById(`cell-${currCell.row}-${currCell.col}`)
+							.classList.add("mazeTemp");
+					}, 20 * i)
+				);
 			}
 		}
 		for (let i = 0; i < row; i++) {
 			for (let j = 0; j < col; j++) {
-				setTimeout(() => {
-					document
-						.getElementById(`cell-${i}-${j}`)
-						.classList.remove("mazeTemp", "mazeFinal");
-				}, 20 * createdMaze.length);
+				mazeCreationAnimation.push(
+					setTimeout(() => {
+						document
+							.getElementById(`cell-${i}-${j}`)
+							.classList.remove("mazeTemp", "mazeFinal");
+					}, 20 * createdMaze.length)
+				);
 			}
 		}
+		this.setState({ mazeCreationAnimation: mazeCreationAnimation });
 	};
 
 	removeStartFinish = () => {
@@ -259,9 +279,26 @@ class Pathfinder extends Component {
 			for (let j = 0; j < col; j++) {
 				document
 					.getElementById(`cell-${i}-${j}`)
-					.classList.remove("StartPoint", "FinishPoint");
+					.classList.remove(
+						"StartPoint",
+						"FinishPoint",
+						"mazeTemp",
+						"mazeFinal"
+					);
 			}
 		}
+	};
+
+	cancelAnimations = () => {
+		const {
+			visitedCellsAnimation,
+			shortestPathAnimation,
+			mazeCreationAnimation,
+		} = this.state;
+		console.log(visitedCellsAnimation.length);
+		visitedCellsAnimation.forEach((element) => clearTimeout(element));
+		shortestPathAnimation.forEach((element) => clearTimeout(element));
+		mazeCreationAnimation.forEach((element) => clearTimeout(element));
 	};
 
 	createMazeCell = (row, col) => {
@@ -269,26 +306,36 @@ class Pathfinder extends Component {
 	};
 
 	setCol = (col) => {
+		this.cancelAnimations();
 		this.setState({ col: col });
 		this.removeStartFinish();
 		const gridRow = this.state.row;
 		const gridCol = this.state.col;
 		document.getElementById(`cell-${0}-${0}`).classList.add("StartPoint");
+		document.getElementById(`cell-${0}-${0}`).classList.remove("CurrentWall");
 		document
 			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
 			.classList.add("FinishPoint");
+		document
+			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
+			.classList.remove("CurrentWall");
 	};
 
 	setRow = (row) => {
+		this.cancelAnimations();
 		this.setState({ row: row });
 		this.removeStartFinish();
 
 		const gridRow = this.state.row;
 		const gridCol = this.state.col;
 		document.getElementById(`cell-${0}-${0}`).classList.add("StartPoint");
+		document.getElementById(`cell-${0}-${0}`).classList.remove("CurrentWall");
 		document
 			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
 			.classList.add("FinishPoint");
+		document
+			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
+			.classList.remove("CurrentWall");
 	};
 
 	render() {
