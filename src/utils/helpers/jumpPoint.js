@@ -432,7 +432,7 @@ function expandVertical(
 }
 
 function validVerticalExpansion(grid, currRow, rowInc) {
-	return currRow + rowInc >= 0 && currRow + rowInc < grid[0].length;
+	return currRow + rowInc >= 0 && currRow + rowInc < grid.length;
 }
 
 function getDirection(rowInc, colInc) {

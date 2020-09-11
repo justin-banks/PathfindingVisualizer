@@ -7,6 +7,7 @@ import {
 	getPath,
 	getShortestPath,
 } from "../../utils/algorithms/pathfindingFuncs";
+import { createMazeFunction } from "./../../utils/helpers/mazeCreator";
 
 const maxRow = 60;
 const maxCol = 60;
@@ -30,10 +31,11 @@ class Pathfinder extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
+		/*this.setState({
 			row: Math.min(this.props.row, maxRow),
 			col: Math.min(this.props.col, maxCol),
-		});
+		});*/
+		this.setState({ row: 50, col: 120 });
 	}
 
 	resetGrid = () => {
@@ -185,6 +187,73 @@ class Pathfinder extends Component {
 		this.setState({ dontCutCorners: check });
 	};
 
+	generateMaze = () => {
+		this.resetGrid();
+		this.clearWalls();
+		const { row, col } = this.state;
+		for (let i = 0; i < row; i++) {
+			for (let j = 0; j < col; j++) {
+				document.getElementById(`cell-${i}-${j}`).classList.add("CurrentWall");
+				document
+					.getElementById(`cell-${i}-${j}`)
+					.classList.remove("StartPoint", "FinishPoint");
+			}
+		}
+		for (let i = 0; i < row; i += 2) {
+			for (let j = 0; j < col; j += 2) {
+				document
+					.getElementById(`cell-${i}-${j}`)
+					.classList.remove("CurrentWall");
+			}
+		}
+		document.getElementById(`cell-0-0`).classList.add("StartPoint");
+
+		document
+			.getElementById(
+				`cell-${Math.ceil(row / 2) * 2 - 2}-${Math.ceil(col / 2) * 2 - 2}`
+			)
+			.classList.add("FinishPoint");
+		const createdMaze = createMazeFunction(
+			Math.ceil(row / 2),
+			Math.ceil(col / 2)
+		);
+		for (let i = 0; i < createdMaze.length; i++) {
+			const currCell = createdMaze[i];
+			if (currCell.beenConnected) {
+				setTimeout(() => {
+					document
+						.getElementById(`cell-${currCell.row}-${currCell.col}`)
+						.classList.remove("mazeTemp");
+					document
+						.getElementById(`cell-${currCell.row}-${currCell.col}`)
+						.classList.add("mazeFinal");
+				}, 20 * i);
+			} else {
+				setTimeout(() => {
+					document
+						.getElementById(`cell-${currCell.row}-${currCell.col}`)
+						.classList.remove("CurrentWall");
+					document
+						.getElementById(`cell-${currCell.row}-${currCell.col}`)
+						.classList.add("mazeTemp");
+				}, 20 * i);
+			}
+		}
+		for (let i = 0; i < row; i++) {
+			for (let j = 0; j < col; j++) {
+				setTimeout(() => {
+					document
+						.getElementById(`cell-${i}-${j}`)
+						.classList.remove("mazeTemp", "mazeFinal");
+				}, 20 * createdMaze.length);
+			}
+		}
+	};
+
+	createMazeCell = (row, col) => {
+		return { row: row, col: col };
+	};
+
 	render() {
 		const { row, col } = this.state;
 		return (
@@ -200,6 +269,7 @@ class Pathfinder extends Component {
 					pathfind={this.computePath}
 					reset={this.resetGrid}
 					clearWalls={this.clearWalls}
+					generateMaze={this.generateMaze}
 				/>
 				<Grid row={row} col={col} />
 			</div>

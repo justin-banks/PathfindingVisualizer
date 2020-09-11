@@ -83,6 +83,14 @@
   background-color: green;
 }
 
+.mazeTemp {
+  background-color: lightblue;
+}
+
+.mazeFinal {
+  background-color: darkblue;
+}
+
 @-webkit-keyframes visitedAnimation {
   0% {
     -webkit-transform: scale(0.3);

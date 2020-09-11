@@ -24,13 +24,13 @@ export function getUnvisitedNeighbors(cell, grid) {
 	if (col > 0) {
 		validNeighbors.push(grid[row][col - 1]);
 	}
-	if (col < grid.length - 1) {
+	if (col < grid[0].length - 1) {
 		validNeighbors.push(grid[row][col + 1]);
 	}
 	if (row > 0) {
 		validNeighbors.push(grid[row - 1][col]);
 	}
-	if (row < grid[0].length - 1) {
+	if (row < grid.length - 1) {
 		validNeighbors.push(grid[row + 1][col]);
 	}
 
@@ -84,6 +84,9 @@ export function pathfindFunction(
 		cellsInOrder.push(lowestDistanceCell);
 		if (lowestDistanceCell === finishCell) {
 			return cellsInOrder;
+		}
+		if (lowestDistanceCell.row == 48 && lowestDistanceCell.col == 1) {
+			console.log("here");
 		}
 		updateNeighbors(
 			lowestDistanceCell,
@@ -190,7 +193,7 @@ function diagonalCells(cell, grid, unvisitedNeighbors, dontCutCorners) {
 			validNeighbors.push(grid[row - 1][col - 1]);
 		}
 	}
-	if (col > 0 && row < grid[0].length - 1) {
+	if (col > 0 && row < grid.length - 1) {
 		if (
 			checkDiagonalCellsHelper(
 				row,
@@ -205,7 +208,7 @@ function diagonalCells(cell, grid, unvisitedNeighbors, dontCutCorners) {
 			validNeighbors.push(grid[row + 1][col - 1]);
 		}
 	}
-	if (col < grid.length - 1 && row > 0) {
+	if (col < grid[0].length - 1 && row > 0) {
 		if (
 			checkDiagonalCellsHelper(
 				row,
@@ -220,7 +223,7 @@ function diagonalCells(cell, grid, unvisitedNeighbors, dontCutCorners) {
 			validNeighbors.push(grid[row - 1][col + 1]);
 		}
 	}
-	if (col < grid.length - 1 && row < grid[0].length - 1) {
+	if (col < grid[0].length - 1 && row < grid.length - 1) {
 		if (
 			checkDiagonalCellsHelper(
 				row,

@@ -25,6 +25,9 @@ export default function ControlButtons(props) {
 			<Button variant="contained" color="secondary" onClick={props.clearWalls}>
 				Clear Walls
 			</Button>
+			<Button variant="outlined" color="primary" onClick={props.generateMaze}>
+				Create Maze
+			</Button>
 		</div>
 	);
 }
