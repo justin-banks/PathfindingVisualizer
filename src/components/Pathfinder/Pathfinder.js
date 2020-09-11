@@ -8,6 +8,9 @@ import {
 	getShortestPath,
 } from "../../utils/algorithms/pathfindingFuncs";
 import { createMazeFunction } from "./../../utils/helpers/mazeCreator";
+import RowSlider from "../RowSlider/RowSlider";
+import ColSlider from "../ColSlider/ColSlider";
+import "./Pathfinder.scss";
 
 const maxRow = 60;
 const maxCol = 60;
@@ -250,8 +253,42 @@ class Pathfinder extends Component {
 		}
 	};
 
+	removeStartFinish = () => {
+		const { row, col } = this.state;
+		for (let i = 0; i < row; i++) {
+			for (let j = 0; j < col; j++) {
+				document
+					.getElementById(`cell-${i}-${j}`)
+					.classList.remove("StartPoint", "FinishPoint");
+			}
+		}
+	};
+
 	createMazeCell = (row, col) => {
 		return { row: row, col: col };
+	};
+
+	setCol = (col) => {
+		this.setState({ col: col });
+		this.removeStartFinish();
+		const gridRow = this.state.row;
+		const gridCol = this.state.col;
+		document.getElementById(`cell-${0}-${0}`).classList.add("StartPoint");
+		document
+			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
+			.classList.add("FinishPoint");
+	};
+
+	setRow = (row) => {
+		this.setState({ row: row });
+		this.removeStartFinish();
+
+		const gridRow = this.state.row;
+		const gridCol = this.state.col;
+		document.getElementById(`cell-${0}-${0}`).classList.add("StartPoint");
+		document
+			.getElementById(`cell-${gridRow - 1}-${gridCol - 1}`)
+			.classList.add("FinishPoint");
 	};
 
 	render() {
@@ -271,7 +308,15 @@ class Pathfinder extends Component {
 					clearWalls={this.clearWalls}
 					generateMaze={this.generateMaze}
 				/>
-				<Grid row={row} col={col} />
+				<div className="gridDisplay">
+					<div className="rowSlider">
+						<RowSlider setRow={this.setRow} />
+					</div>
+					<div className="col">
+						<ColSlider setCol={this.setCol} />
+						<Grid row={row} col={col} />
+					</div>
+				</div>
 			</div>
 		);
 	}
