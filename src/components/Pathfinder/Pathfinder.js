@@ -240,10 +240,10 @@ class Pathfinder extends Component {
 					setTimeout(() => {
 						document
 							.getElementById(`cell-${currCell.row}-${currCell.col}`)
-							.classList.remove("mazeTemp");
+							.classList.add("mazeFinal");
 						document
 							.getElementById(`cell-${currCell.row}-${currCell.col}`)
-							.classList.add("mazeFinal");
+							.classList.remove("mazeTemp");
 					}, 20 * i)
 				);
 			} else {
@@ -251,10 +251,10 @@ class Pathfinder extends Component {
 					setTimeout(() => {
 						document
 							.getElementById(`cell-${currCell.row}-${currCell.col}`)
-							.classList.remove("CurrentWall");
+							.classList.add("mazeTemp");
 						document
 							.getElementById(`cell-${currCell.row}-${currCell.col}`)
-							.classList.add("mazeTemp");
+							.classList.remove("CurrentWall");
 					}, 20 * i)
 				);
 			}

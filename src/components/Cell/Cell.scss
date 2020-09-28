@@ -7,16 +7,33 @@
 	outline: $borderSize solid black;
 	padding: none;
 	text-align: center;
-	background-color: $mainColor;
 	margin-left: $borderSize;
+	animation: 0.5s ease-in-out 1 cellAnimation;
+	animation-fill-mode: forwards;
+}
+
+@keyframes cellAnimation {
+	0% {
+		background-color: $mainColor;
+	}
+	50% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+		background-color: $mainColor;
+	}
 }
 
 .CurrentWall {
-	animation: 0.2s ease-in-out 1 wallAnimation;
+	animation: 0.5s ease-in-out 1 wallAnimation;
 	animation-fill-mode: forwards;
 }
 
 @keyframes wallAnimation {
+	0% {
+		background-color: $wallColor;
+	}
 	50% {
 		transform: scale(1.2);
 	}
@@ -28,7 +45,7 @@
 
 .sampleAnimation {
 	animation-name: visitedAnimation;
-	animation-duration: 2s;
+	animation-duration: 12s;
 	animation-timing-function: ease-out;
 	animation-delay: 0;
 	animation-direction: alternate;
@@ -39,46 +56,64 @@
 
 .StartPoint {
 	background-color: $startPoint;
+	animation: 0.1s linear 1;
+	animation-fill-mode: forwards;
 }
 
 .FinishPoint {
 	background-color: $finishPoint;
+	animation: 0.1s linear 1;
+	animation-fill-mode: forwards;
 }
 
 .cell-visited {
-	background-color: red;
+	background-color: #689f38;
+	animation: 0.1s linear 1;
+	animation-fill-mode: forwards;
 }
 
 .cell-shortestPath {
-	background-color: green;
+	animation: 1s linear 1 visitedAnimation;
+	animation-fill-mode: forwards;
 }
 
 .mazeTemp {
-	background-color: lightblue;
+	background-color: #58a5f0;
+	animation: 0.1s linear 1;
+	animation-fill-mode: forwards;
 }
 
 .mazeFinal {
-	background-color: darkblue;
+	background-color: #004c8c;
+	animation: 0.1s linear 1;
+	animation-fill-mode: forwards;
 }
 
 @keyframes visitedAnimation {
 	0% {
 		transform: scale(0.3);
-		background-color: rgba(146, 146, 151, 0.75);
-		border-radius: 100%;
+		background-color: #9c4dcc;
+		border-radius: 1300%;
 	}
-
+	25% {
+		transform: rotate(-90deg);
+	}
 	50% {
-		background-color: rgba(86, 87, 88, 0.75);
+		transform: rotate(0deg);
+		background-color: #6a1b9a;
+		border-radius: 180%;
+		transform: rotate(180deg);
 	}
 
 	75% {
-		transform: scale(1.2);
-		background-color: rgba(66, 68, 67, 0.75);
+		transform: scale(1.5);
+
+		border-radius: 120%;
 	}
 
 	100% {
 		transform: scale(1);
-		background-color: $wallColor;
+		background-color: #38006b;
+		border-radius: 0%;
 	}
 }

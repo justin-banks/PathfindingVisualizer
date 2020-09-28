@@ -69,6 +69,14 @@ class Cell extends Component {
 				.getElementById(`cell-${this.props.row}-${this.props.col}`)
 				.classList.remove("CurrentWall");
 		} else {
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove(
+					"cell-shortestPath",
+					"mazeTemp",
+					"mazeFinal",
+					"cell-visited"
+				);
 			becomingWall
 				? document
 						.getElementById(`cell-${this.props.row}-${this.props.col}`)
@@ -104,6 +112,15 @@ class Cell extends Component {
 		)
 			assertStartMoving();
 		else {
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove(
+					"cell-shortestPath",
+					"mazeTemp",
+					"mazeFinal",
+					"cell-visited"
+				);
+
 			document
 				.getElementById(`cell-${this.props.row}-${this.props.col}`)
 				.classList.contains("CurrentWall")

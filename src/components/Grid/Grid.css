@@ -1,6 +1,6 @@
 :export {
-  mainColor: Tan;
-  wallColor: Grey;
+  mainColor: #a98274;
+  wallColor: #616161;
   cellSize: 27px;
   defaultRows: 10;
   defaultCols: 10;
@@ -18,5 +18,6 @@
   text-align: center;
   display: block;
   white-space: nowrap;
+  background-color: #a98274;
 }
 /*# sourceMappingURL=Grid.css.map */

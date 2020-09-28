@@ -1,6 +1,6 @@
 :export {
-  mainColor: Tan;
-  wallColor: Grey;
+  mainColor: #a98274;
+  wallColor: #616161;
   cellSize: 27px;
   defaultRows: 10;
   defaultCols: 10;
@@ -13,18 +13,54 @@
   outline: 2px solid black;
   padding: none;
   text-align: center;
-  background-color: Tan;
   margin-left: 2px;
+  -webkit-animation: 0.5s ease-in-out 1 cellAnimation;
+          animation: 0.5s ease-in-out 1 cellAnimation;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes cellAnimation {
+  0% {
+    background-color: #a98274;
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background-color: #a98274;
+  }
+}
+
+@keyframes cellAnimation {
+  0% {
+    background-color: #a98274;
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background-color: #a98274;
+  }
 }
 
 .CurrentWall {
-  -webkit-animation: 0.2s ease-in-out 1 wallAnimation;
-          animation: 0.2s ease-in-out 1 wallAnimation;
+  -webkit-animation: 0.5s ease-in-out 1 wallAnimation;
+          animation: 0.5s ease-in-out 1 wallAnimation;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes wallAnimation {
+  0% {
+    background-color: #616161;
+  }
   50% {
     -webkit-transform: scale(1.2);
             transform: scale(1.2);
@@ -32,11 +68,14 @@
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    background-color: Grey;
+    background-color: #616161;
   }
 }
 
 @keyframes wallAnimation {
+  0% {
+    background-color: #616161;
+  }
   50% {
     -webkit-transform: scale(1.2);
             transform: scale(1.2);
@@ -44,15 +83,15 @@
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    background-color: Grey;
+    background-color: #616161;
   }
 }
 
 .sampleAnimation {
   -webkit-animation-name: visitedAnimation;
           animation-name: visitedAnimation;
-  -webkit-animation-duration: 2s;
-          animation-duration: 2s;
+  -webkit-animation-duration: 12s;
+          animation-duration: 12s;
   -webkit-animation-timing-function: ease-out;
           animation-timing-function: ease-out;
   -webkit-animation-delay: 0;
@@ -69,47 +108,80 @@
 
 .StartPoint {
   background-color: lightGreen;
+  -webkit-animation: 0.1s linear 1;
+          animation: 0.1s linear 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .FinishPoint {
-  background-color: #c04343;
+  background-color: #d50000;
+  -webkit-animation: 0.1s linear 1;
+          animation: 0.1s linear 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .cell-visited {
-  background-color: red;
+  background-color: #689f38;
+  -webkit-animation: 0.1s linear 1;
+          animation: 0.1s linear 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .cell-shortestPath {
-  background-color: green;
+  -webkit-animation: 1s linear 1 visitedAnimation;
+          animation: 1s linear 1 visitedAnimation;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .mazeTemp {
-  background-color: lightblue;
+  background-color: #58a5f0;
+  -webkit-animation: 0.1s linear 1;
+          animation: 0.1s linear 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .mazeFinal {
-  background-color: darkblue;
+  background-color: #004c8c;
+  -webkit-animation: 0.1s linear 1;
+          animation: 0.1s linear 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes visitedAnimation {
   0% {
     -webkit-transform: scale(0.3);
             transform: scale(0.3);
-    background-color: rgba(146, 146, 151, 0.75);
-    border-radius: 100%;
+    background-color: #9c4dcc;
+    border-radius: 1300%;
+  }
+  25% {
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
   }
   50% {
-    background-color: rgba(86, 87, 88, 0.75);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background-color: #6a1b9a;
+    border-radius: 180%;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
   }
   75% {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
-    background-color: rgba(66, 68, 67, 0.75);
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+    border-radius: 120%;
   }
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    background-color: Grey;
+    background-color: #38006b;
+    border-radius: 0%;
   }
 }
 
@@ -117,21 +189,31 @@
   0% {
     -webkit-transform: scale(0.3);
             transform: scale(0.3);
-    background-color: rgba(146, 146, 151, 0.75);
-    border-radius: 100%;
+    background-color: #9c4dcc;
+    border-radius: 1300%;
+  }
+  25% {
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
   }
   50% {
-    background-color: rgba(86, 87, 88, 0.75);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background-color: #6a1b9a;
+    border-radius: 180%;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
   }
   75% {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
-    background-color: rgba(66, 68, 67, 0.75);
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+    border-radius: 120%;
   }
   100% {
     -webkit-transform: scale(1);
             transform: scale(1);
-    background-color: Grey;
+    background-color: #38006b;
+    border-radius: 0%;
   }
 }
 /*# sourceMappingURL=Cell.css.map */
