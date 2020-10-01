@@ -182,14 +182,6 @@ class Pathfinder extends Component {
 		this.setState({ heuristicSelection: childSelection });
 	};
 
-	resetPassback = () => {
-		this.setState({
-			heuristicSelection: "Manhattan",
-			allowDiagonal: false,
-			dontCutCorners: false,
-		});
-	};
-
 	selectedAlgorithm = (algorithm) => {
 		this.setState({ algorithm: algorithm });
 	};
@@ -339,15 +331,23 @@ class Pathfinder extends Component {
 	};
 
 	render() {
-		const { row, col } = this.state;
+		const {
+			row,
+			col,
+			heuristicSelection,
+			allowDiagonal,
+			dontCutCorners,
+		} = this.state;
 		return (
 			<div>
 				<NavigationMenu
 					checkPassback={this.callBackFunction}
-					resetPassback={this.resetPassback}
 					selectedAlgorithm={this.selectedAlgorithm}
 					setAllowDiagonal={this.setAllowDiagonal}
 					setDontCutCorners={this.setDontCutCorners}
+					heuristicSelection={heuristicSelection}
+					dontCutCorners={dontCutCorners}
+					allowDiagonal={allowDiagonal}
 				/>
 				<ControlButtons
 					pathfind={this.computePath}

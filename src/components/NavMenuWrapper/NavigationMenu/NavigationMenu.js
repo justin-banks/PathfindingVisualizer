@@ -55,7 +55,6 @@ export default function SimpleTabs(props) {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 		props.selectedAlgorithm(newValue);
-		props.resetPassback(newValue);
 	};
 
 	return (
@@ -73,10 +72,6 @@ export default function SimpleTabs(props) {
 					<Tab label="Best First Search" {...a11yProps(2)} />
 					<Tab label="Jump Point Search" {...a11yProps(3)} />
 					<Tab label="Breadth First Search" {...a11yProps(4)} />
-					<Tab label="Best First Search4" {...a11yProps(5)} />
-					<Tab label="Best First Search5" {...a11yProps(6)} />
-					<Tab label="Best First Search6" {...a11yProps(7)} />
-					<Tab label="Best First Search7" {...a11yProps(8)} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
@@ -85,6 +80,9 @@ export default function SimpleTabs(props) {
 					setAllowDiagonal={props.setAllowDiagonal}
 					setDontCutCorners={props.setDontCutCorners}
 					disable={true}
+					heuristicSelection={props.heuristicSelection}
+					dontCutCorners={props.dontCutCorners}
+					allowDiagonal={props.allowDiagonal}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
@@ -92,6 +90,10 @@ export default function SimpleTabs(props) {
 					changeProp={props.checkPassback}
 					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
+					disable={false}
+					heuristicSelection={props.heuristicSelection}
+					dontCutCorners={props.dontCutCorners}
+					allowDiagonal={props.allowDiagonal}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
@@ -99,6 +101,10 @@ export default function SimpleTabs(props) {
 					changeProp={props.checkPassback}
 					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
+					disable={false}
+					heuristicSelection={props.heuristicSelection}
+					dontCutCorners={props.dontCutCorners}
+					allowDiagonal={props.allowDiagonal}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={3}>
@@ -106,6 +112,10 @@ export default function SimpleTabs(props) {
 					changeProp={props.checkPassback}
 					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
+					disable={false}
+					heuristicSelection={props.heuristicSelection}
+					dontCutCorners={props.dontCutCorners}
+					allowDiagonal={props.allowDiagonal}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={4}>
@@ -113,34 +123,10 @@ export default function SimpleTabs(props) {
 					changeProp={props.checkPassback}
 					setDontCutCorners={props.setDontCutCorners}
 					setAllowDiagonal={props.setAllowDiagonal}
-				/>
-			</TabPanel>
-			<TabPanel value={value} index={5}>
-				<PathfindingOptions
-					changeProp={props.checkPassback}
-					setDontCutCorners={props.setDontCutCorners}
-					setAllowDiagonal={props.setAllowDiagonal}
-				/>
-			</TabPanel>
-			<TabPanel value={value} index={6}>
-				<PathfindingOptions
-					changeProp={props.checkPassback}
-					setDontCutCorners={props.setDontCutCorners}
-					setAllowDiagonal={props.setAllowDiagonal}
-				/>
-			</TabPanel>
-			<TabPanel value={value} index={7}>
-				<PathfindingOptions
-					changeProp={props.checkPassback}
-					setDontCutCorners={props.setDontCutCorners}
-					setAllowDiagonal={props.setAllowDiagonal}
-				/>
-			</TabPanel>
-			<TabPanel value={value} index={8}>
-				<PathfindingOptions
-					changeProp={props.checkPassback}
-					setDontCutCorners={props.setDontCutCorners}
-					setAllowDiagonal={props.setAllowDiagonal}
+					disable={true}
+					heuristicSelection={props.heuristicSelection}
+					dontCutCorners={props.dontCutCorners}
+					allowDiagonal={props.allowDiagonal}
 				/>
 			</TabPanel>
 		</div>

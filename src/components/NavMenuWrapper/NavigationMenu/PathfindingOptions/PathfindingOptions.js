@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 export default function RadioButtonsGroup(props) {
 	const [value, setValue] = React.useState(() => {
-		return "Manhattan";
+		return props.heuristicSelection;
 	});
 
 	const handleChange = (event) => {
@@ -19,7 +19,7 @@ export default function RadioButtonsGroup(props) {
 	};
 
 	const [diagonalAllowed, setDiagonalAllowed] = React.useState(() => {
-		return false;
+		return props.allowDiagonal;
 	});
 	const handleDiagonalAllowedChange = (event) => {
 		setDiagonalAllowed(event.target.checked);
@@ -27,7 +27,7 @@ export default function RadioButtonsGroup(props) {
 	};
 
 	const [dontCutCorners, setDontCutCorners] = React.useState(() => {
-		return false;
+		return props.dontCutCorners;
 	});
 	const handleCutCorner = (event) => {
 		setDontCutCorners(event.target.checked);
