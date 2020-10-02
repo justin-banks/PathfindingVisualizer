@@ -33,6 +33,14 @@ export default function RadioButtonsGroup(props) {
 		setDontCutCorners(event.target.checked);
 		props.setDontCutCorners(event.target.checked);
 	};
+
+	const [biasResults, setBiasResults] = React.useState(() => {
+		return props.biasResults;
+	});
+	const handleBiasResults = (event) => {
+		setBiasResults(event.target.checked);
+		props.setBiasResults(event.target.checked);
+	};
 	return (
 		<FormControl component="fieldset" size="small">
 			<FormLabel component="legend">Heuristic Choice</FormLabel>
@@ -91,6 +99,21 @@ export default function RadioButtonsGroup(props) {
 								/>
 							}
 							label="don't cut corners"
+						/>
+					</div>
+					<div className="column">
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={biasResults}
+									onChange={handleBiasResults}
+									name="biasResults"
+									color="secondary"
+									size="small"
+									disabled={props.disable}
+								/>
+							}
+							label="bias results"
 						/>
 					</div>
 				</div>

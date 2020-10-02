@@ -53,7 +53,8 @@ export function pathfindFunction(
 	allowDiagonals,
 	dontCutCorners,
 	heuristicOption,
-	algorithmOptions
+	algorithmOptions,
+	biasResults
 ) {
 	const startCell = findStart(grid);
 	const finishCell = findFinish(grid);
@@ -85,9 +86,6 @@ export function pathfindFunction(
 		if (lowestDistanceCell === finishCell) {
 			return cellsInOrder;
 		}
-		if (lowestDistanceCell.row == 48 && lowestDistanceCell.col == 1) {
-			console.log("here");
-		}
 		updateNeighbors(
 			lowestDistanceCell,
 			grid,
@@ -96,7 +94,8 @@ export function pathfindFunction(
 			allowDiagonals,
 			dontCutCorners,
 			heuristicOption,
-			algorithmOptions
+			algorithmOptions,
+			biasResults
 		);
 	}
 }
@@ -109,7 +108,8 @@ function updateNeighbors(
 	allowDiagonals,
 	dontCutCorners,
 	heuristicOption,
-	algorithmOptions
+	algorithmOptions,
+	biasResults
 ) {
 	const unvisitedNeighbors = getUnvisitedNeighbors(cell, grid);
 	var diagonalUnvisitedNeighbors = [];
@@ -133,43 +133,56 @@ function updateNeighbors(
 			cardinalCost = 10;
 			diagonalCost = 14;
 	}
-
+	var biasAmount;
+	if (biasResults) {
+		biasAmount = 1 + 1 / (150 * 150);
+	} else {
+		biasAmount = 1;
+	}
 	for (const neighbor of unvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + cardinalCost) {
 			neighbor.distance = cell.distance + cardinalCost;
 			if (algorithmOptions === 4) {
-				neighbor.heuristicDistanceTotal = cell.heuristicDistanceTotal + 1;
+				neighbor.heuristicDistanceTotal =
+					cell.heuristicDistanceTotal + 1 * biasAmount;
 			} else {
 				neighbor.heuristicDistanceTotal =
 					neighbor.distance +
-					heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+					heuristic(
+						neighbor.row,
+						neighbor.col,
+						finishCell.row,
+						finishCell.col
+					) *
+						biasAmount;
 			}
 			neighbor.parent = cell;
-			neighbor.heuristicDistance = heuristic(
-				neighbor.row,
-				neighbor.col,
-				finishCell.row,
-				finishCell.col
-			);
+			neighbor.heuristicDistance =
+				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col) *
+				biasAmount;
 		}
 	}
 	for (const neighbor of diagonalUnvisitedNeighbors) {
 		if (neighbor.distance > cell.distance + diagonalCost) {
 			neighbor.distance = cell.distance + diagonalCost;
 			if (algorithmOptions === 4) {
-				neighbor.heuristicDistanceTotal = cell.heuristicDistanceTotal + 1;
+				neighbor.heuristicDistanceTotal =
+					cell.heuristicDistanceTotal + 1 * biasAmount;
 			} else {
 				neighbor.heuristicDistanceTotal =
 					neighbor.distance +
-					heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col);
+					heuristic(
+						neighbor.row,
+						neighbor.col,
+						finishCell.row,
+						finishCell.col
+					) *
+						biasAmount;
 			}
 			neighbor.parent = cell;
-			neighbor.heuristicDistance = heuristic(
-				neighbor.row,
-				neighbor.col,
-				finishCell.row,
-				finishCell.col
-			);
+			neighbor.heuristicDistance =
+				heuristic(neighbor.row, neighbor.col, finishCell.row, finishCell.col) *
+				biasAmount;
 		}
 	}
 }

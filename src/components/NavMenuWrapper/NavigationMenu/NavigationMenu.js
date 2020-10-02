@@ -83,6 +83,8 @@ export default function SimpleTabs(props) {
 					heuristicSelection={props.heuristicSelection}
 					dontCutCorners={props.dontCutCorners}
 					allowDiagonal={props.allowDiagonal}
+					biasResults={props.biasResults}
+					setBiasResults={props.setBiasResults}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
@@ -94,6 +96,8 @@ export default function SimpleTabs(props) {
 					heuristicSelection={props.heuristicSelection}
 					dontCutCorners={props.dontCutCorners}
 					allowDiagonal={props.allowDiagonal}
+					biasResults={props.biasResults}
+					setBiasResults={props.setBiasResults}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
@@ -105,6 +109,8 @@ export default function SimpleTabs(props) {
 					heuristicSelection={props.heuristicSelection}
 					dontCutCorners={props.dontCutCorners}
 					allowDiagonal={props.allowDiagonal}
+					biasResults={props.biasResults}
+					setBiasResults={props.setBiasResults}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={3}>
@@ -116,6 +122,8 @@ export default function SimpleTabs(props) {
 					heuristicSelection={props.heuristicSelection}
 					dontCutCorners={props.dontCutCorners}
 					allowDiagonal={props.allowDiagonal}
+					biasResults={props.biasResults}
+					setBiasResults={props.setBiasResults}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={4}>
@@ -127,6 +135,8 @@ export default function SimpleTabs(props) {
 					heuristicSelection={props.heuristicSelection}
 					dontCutCorners={props.dontCutCorners}
 					allowDiagonal={props.allowDiagonal}
+					biasResults={props.biasResults}
+					setBiasResults={props.setBiasResults}
 				/>
 			</TabPanel>
 		</div>

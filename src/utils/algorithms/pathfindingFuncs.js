@@ -12,7 +12,8 @@ export function getPath(
 	algorithmOption,
 	heuristicOption,
 	allowDiagonal,
-	dontCutCorners
+	dontCutCorners,
+	biasResults
 ) {
 	switch (algorithmOption) {
 		case 0:
@@ -49,7 +50,8 @@ export function getPath(
 		allowDiagonal,
 		dontCutCorners,
 		heuristicOption,
-		algorithmOption
+		algorithmOption,
+		biasResults
 	);
 }
 

@@ -30,6 +30,7 @@ class Pathfinder extends Component {
 			resetOption: false,
 			visitedCells: [],
 			dontCutCorners: false,
+			biasResults: false,
 			visitedCellsAnimation: [],
 			shortestPathAnimation: [],
 			mazeCreationAnimation: [],
@@ -172,7 +173,8 @@ class Pathfinder extends Component {
 			this.state.algorithm,
 			this.state.heuristicSelection,
 			this.state.allowDiagonal,
-			this.state.dontCutCorners
+			this.state.dontCutCorners,
+			this.state.biasResults
 		);
 		this.setState({ visitedCells: visitedCells });
 		this.visualizeAlgorithm(visitedCells, grid);
@@ -192,6 +194,10 @@ class Pathfinder extends Component {
 
 	setDontCutCorners = (check) => {
 		this.setState({ dontCutCorners: check });
+	};
+
+	setBiasResults = (check) => {
+		this.setState({ biasResults: check });
 	};
 
 	generateMaze = () => {
@@ -337,6 +343,7 @@ class Pathfinder extends Component {
 			heuristicSelection,
 			allowDiagonal,
 			dontCutCorners,
+			biasResults,
 		} = this.state;
 		return (
 			<div>
@@ -348,6 +355,8 @@ class Pathfinder extends Component {
 					heuristicSelection={heuristicSelection}
 					dontCutCorners={dontCutCorners}
 					allowDiagonal={allowDiagonal}
+					biasResults={biasResults}
+					setBiasResults={this.setBiasResults}
 				/>
 				<ControlButtons
 					pathfind={this.computePath}
