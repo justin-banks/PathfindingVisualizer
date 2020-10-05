@@ -55,6 +55,7 @@ export default function RowSlider(props) {
 				marks={marks}
 				orientation="vertical"
 				onChangeCommitted={handleChange}
+				color="secondary"
 			/>
 		</div>
 	);

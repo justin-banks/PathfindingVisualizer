@@ -47,6 +47,14 @@ class Cell extends Component {
 		if (startMoving) {
 			document
 				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove(
+					"cell-shortestPath",
+					"mazeTemp",
+					"mazeFinal",
+					"cell-visited"
+				);
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
 				.classList.add("StartPoint");
 			this.setState({
 				wasWall: document
@@ -59,6 +67,14 @@ class Cell extends Component {
 		} else if (finishMoving) {
 			document
 				.getElementById(`cell-${this.props.row}-${this.props.col}`)
+				.classList.remove(
+					"cell-shortestPath",
+					"mazeTemp",
+					"mazeFinal",
+					"cell-visited"
+				);
+			document
+				.getElementById(`cell-${this.props.row}-${this.props.col}`)
 				.classList.add("FinishPoint");
 			this.setState({
 				wasWall: document
@@ -69,14 +85,21 @@ class Cell extends Component {
 				.getElementById(`cell-${this.props.row}-${this.props.col}`)
 				.classList.remove("CurrentWall");
 		} else {
-			document
-				.getElementById(`cell-${this.props.row}-${this.props.col}`)
-				.classList.remove(
-					"cell-shortestPath",
-					"mazeTemp",
-					"mazeFinal",
-					"cell-visited"
-				);
+			if (
+				becomingWall ||
+				document
+					.getElementById(`cell-${this.props.row}-${this.props.col}`)
+					.classList.contains("CurrentWall")
+			) {
+				document
+					.getElementById(`cell-${this.props.row}-${this.props.col}`)
+					.classList.remove(
+						"cell-shortestPath",
+						"mazeTemp",
+						"mazeFinal",
+						"cell-visited"
+					);
+			}
 			becomingWall
 				? document
 						.getElementById(`cell-${this.props.row}-${this.props.col}`)

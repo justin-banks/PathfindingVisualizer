@@ -7,6 +7,10 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PathfindingOptions from "./PathfindingOptions/PathfindingOptions";
+import Button from "@material-ui/core/Button";
+import BrightnessHigh from "@material-ui/icons/BrightnessHigh";
+import Tooltip from "@material-ui/core/Tooltip";
+import Toolbar from "@material-ui/core/Toolbar";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -48,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const TooltipButtonInTabs = ({ className, hoverText, children }) => {
+	return (
+		<Tooltip
+			className={className}
+			title={hoverText}
+			children={children}
+		></Tooltip>
+	);
+};
+
 export default function SimpleTabs(props) {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
@@ -55,6 +69,10 @@ export default function SimpleTabs(props) {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 		props.selectedAlgorithm(newValue);
+	};
+
+	const handleLightDarkToggle = () => {
+		props.toggleLightDarkMode();
 	};
 
 	return (
@@ -72,6 +90,11 @@ export default function SimpleTabs(props) {
 					<Tab label="Best First Search" {...a11yProps(2)} />
 					<Tab label="Jump Point Search" {...a11yProps(3)} />
 					<Tab label="Breadth First Search" {...a11yProps(4)} />
+					<TooltipButtonInTabs hoverText="toggle between light and dark mode">
+						<Button onClick={() => handleLightDarkToggle()}>
+							<BrightnessHigh />
+						</Button>
+					</TooltipButtonInTabs>
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>

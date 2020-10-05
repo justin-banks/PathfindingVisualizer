@@ -52,6 +52,7 @@ export default function ColSlider(props) {
 				valueLabelDisplay="auto"
 				marks={marks}
 				onChangeCommitted={handleChange}
+				color="secondary"
 			/>
 		</div>
 	);

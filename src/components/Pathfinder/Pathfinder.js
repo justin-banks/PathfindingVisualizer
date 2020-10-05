@@ -11,6 +11,11 @@ import { createMazeFunction } from "./../../utils/helpers/mazeCreator";
 import RowSlider from "../RowSlider/RowSlider";
 import ColSlider from "../ColSlider/ColSlider";
 import "./Pathfinder.scss";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
+import themeLight from "./../../utils/themes/themeLight";
+import themeDark from "./../../utils/themes/themeDark";
 
 const maxRow = 60;
 const maxCol = 60;
@@ -34,6 +39,7 @@ class Pathfinder extends Component {
 			visitedCellsAnimation: [],
 			shortestPathAnimation: [],
 			mazeCreationAnimation: [],
+			darkMode: false,
 		};
 	}
 
@@ -336,6 +342,11 @@ class Pathfinder extends Component {
 			.classList.remove("CurrentWall");
 	};
 
+	toggleLightDarkMode = () => {
+		const { darkMode } = this.state;
+		this.setState({ darkMode: !darkMode });
+	};
+
 	render() {
 		const {
 			row,
@@ -344,36 +355,57 @@ class Pathfinder extends Component {
 			allowDiagonal,
 			dontCutCorners,
 			biasResults,
+			darkMode,
 		} = this.state;
+		const theme = createMuiTheme({
+			palette: {
+				type: darkMode ? "dark" : "light",
+				primary: {
+					light: "#ff7543",
+					main: "#d84315",
+					dark: "#9f0000",
+				},
+				secondary: {
+					light: "#439889",
+					main: "#00695c",
+					dark: "#003d33",
+				},
+			},
+		});
 		return (
-			<div>
-				<NavigationMenu
-					checkPassback={this.callBackFunction}
-					selectedAlgorithm={this.selectedAlgorithm}
-					setAllowDiagonal={this.setAllowDiagonal}
-					setDontCutCorners={this.setDontCutCorners}
-					heuristicSelection={heuristicSelection}
-					dontCutCorners={dontCutCorners}
-					allowDiagonal={allowDiagonal}
-					biasResults={biasResults}
-					setBiasResults={this.setBiasResults}
-				/>
-				<ControlButtons
-					pathfind={this.computePath}
-					reset={this.resetGrid}
-					clearWalls={this.clearWalls}
-					generateMaze={this.generateMaze}
-				/>
-				<div className="gridDisplay">
-					<div className="rowSlider">
-						<RowSlider setRow={this.setRow} />
-					</div>
-					<div className="col">
-						<ColSlider setCol={this.setCol} />
-						<Grid row={row} col={col} />
-					</div>
-				</div>
-			</div>
+			<MuiThemeProvider theme={theme}>
+				<Paper style={{ height: "100vh" }} elevation={0}>
+					<Paper elevation={0}>
+						<NavigationMenu
+							checkPassback={this.callBackFunction}
+							selectedAlgorithm={this.selectedAlgorithm}
+							setAllowDiagonal={this.setAllowDiagonal}
+							setDontCutCorners={this.setDontCutCorners}
+							heuristicSelection={heuristicSelection}
+							dontCutCorners={dontCutCorners}
+							allowDiagonal={allowDiagonal}
+							biasResults={biasResults}
+							setBiasResults={this.setBiasResults}
+							toggleLightDarkMode={this.toggleLightDarkMode}
+						/>
+						<ControlButtons
+							pathfind={this.computePath}
+							reset={this.resetGrid}
+							clearWalls={this.clearWalls}
+							generateMaze={this.generateMaze}
+						/>
+						<div className="gridDisplay">
+							<div className="rowSlider">
+								<RowSlider setRow={this.setRow} />
+							</div>
+							<div className="col">
+								<ColSlider setCol={this.setCol} />
+								<Grid row={row} col={col} />
+							</div>
+						</div>
+					</Paper>
+				</Paper>
+			</MuiThemeProvider>
 		);
 	}
 }
